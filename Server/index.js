@@ -12,6 +12,21 @@ app.listen(3000, function (){
 app.post('/sensorReading', function(req, res) {
 		var itemId = req.body.itemId;
 		var sensorReading = req.body.sensorReading;
+		var itemSize = 5;
+		var emptySize = 50;
+		var itemThreshold = 2;
+
+		var distance = emptySize - sensorReading;
+		var itemCount = distance / itemSize;
+
+		if (itemCount <= itemThreshold)
+		{
+			console.log('Item too low');
+			// add notification code here
+		}
+
+		// database call here
+		
 		res.json({ message: 'Got a post /sensorReading request.' + itemId + ' ' + sensorReading});
 	}
 );
