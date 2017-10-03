@@ -1,0 +1,11 @@
+{
+  "name": "arduino-server",
+  "version": "0.0.1",
+  "description": "posting sensor data to AWS sensor",
+  "dependencies": {
+    "apn": "^2.1.5",
+    "body-parser": "^1.18.2",
+    "request": "^2.83.0",
+    "serialport": "^5.0.0"
+  }
+}
