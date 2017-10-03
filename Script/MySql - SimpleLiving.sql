@@ -10,6 +10,9 @@ CREATE TABLE House(
     BulletinInfo VARCHAR(5000),
     PRIMARY KEY (HouseId)
 );
+
+use SimpleLiving;
+insert into House (HouseId, Name, Address, BulletinInfo) values (1, 'Alexa', '157 Berkeley St, Boston, MA 02116', 'N/A');
    
 use SimpleLiving;
 create table User(
@@ -28,6 +31,13 @@ create table User(
 );
 
 use SimpleLiving;
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (1, 1, 'Jessie Dahlquist', uuid(), uuid()); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (2, 1, 'Kevin Tanner', uuid(), uuid()); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (3, 1, 'Selam Yihun', uuid(), uuid()); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (4, 1, 'John Griffin', uuid(), uuid()); 
+
+
+use SimpleLiving;
 create table List(
 	ListID int not null auto_increment,
     HouseId int not null,
@@ -41,6 +51,12 @@ create table List(
 );
 
 use SimpleLiving;
+insert into List (ListId, HouseId, Name) values (1, 1, 'Shopping List');
+insert into List (ListId, HouseId, Name) values (2, 1, 'Chorus List');
+insert into List (ListId, HouseId, Name) values (3, 1, 'Smart Stock List');
+insert into List (ListId, HouseId, Name) values (4, 1, 'To Do List');
+
+use SimpleLiving;
 create table Item(
 	ItemId int not null auto_increment,
     HouseId int not null,
@@ -49,6 +65,7 @@ create table Item(
     ListId int not null,
     Description varchar(500),
     SensorReading int(255),
+    AmazonProductId varchar(20),
 	PRIMARY KEY (ItemId),
     
     FOREIGN KEY fk_house(HouseId)
@@ -61,6 +78,15 @@ create table Item(
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT    
 );
+
+use SimpleLiving;
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (1, 1, 'Wash the dishes', false, 2, 'Chorus');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (2, 1, 'Dust the house', false, 2, 'Chorus');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (3, 1, 'Milk', false, 1, 'Milk');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (4, 1, 'Bacon', false, 1, 'Protein');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (5, 1, 'Cake', false, 1, 'Sweet');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId) values (6, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', false, 3, 'Protein', 'B00FFJ2LXU');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId) values (7, 1, 'Dial All Day Freshness Spring Water Bar Soap, 4 ounces 22 Bar', false, 3, 'Protein', 'B0077S7R8G');
 
 use SimpleLiving;
 create table Transaction(
