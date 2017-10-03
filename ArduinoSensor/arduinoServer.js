@@ -19,7 +19,7 @@ port.on('open', function(){
 	  
 	  var productID = data[7];
 	  var sensorReading = data.substring(19);
-	  console.log("Sensor: " + productID + ' Inches: ' + sensorReading);
+	  console.log("Sensor: " + productID + ' cm: ' + sensorReading);
 	  
 	  if(productID == 1)
 	  {
@@ -42,12 +42,12 @@ port.on('open', function(){
 		  {
 			  console.log("Sensor 1 Undefined, initializing");
 			  s2Reading = sensorReading;
-			  postSensor(productID, s1Reading);
+			  postSensor(productID, s2Reading);
 		  }
 		  else if(s2Reading != sensorReading)
 		  {
 			  s2Reading = sensorReading;
-			  postSensor(productID, s1Reading);
+			  postSensor(productID, s2Reading);
 		  }
 	  }
 
@@ -58,21 +58,25 @@ port.on('open', function(){
 });
 
 function postSensor(itemId, sensorReading){
-	console.log("Change request"); /*
+	console.log("Change request");
 	var headers = {
-		'User-Agent':       'Super Agent/0.0.1',
 		'Content-Type':     'application/json'
 	}
 
+	var jsonBody = JSON.stringify({
+			"itemId": itemId,
+			"sensorReading": sensorReading
+	})
+	
+	console.log(itemId);
+	console.log(sensorReading);
+	
 	// Configure the request
 	var options = {
-		url: 'http://ec2-13-59-35-127.us-east-2.compute.amazonaws.com:3000/sensor',
+		url: 'http://localhost:3000/sensorReading',
 		method: 'POST',
 		headers: headers,
-		form: {
-			'itemId': itemId,
-			'sensorReading': sensorReading
-		}
+		body: jsonBody
 	}
 
 	// Start the request
@@ -81,7 +85,7 @@ function postSensor(itemId, sensorReading){
 			// Print out the response body
 			console.log(body)
 		}
-	}) */
+	})
 }
  
  /*
