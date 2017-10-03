@@ -5,6 +5,8 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { BillsplitterPage} from '../pages/billsplitter/billsplitter';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -33,7 +35,8 @@ const cloudSettings: CloudSettings = {
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    BillsplitterPage
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ const cloudSettings: CloudSettings = {
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    BillsplitterPage
   ],
   providers: [
     StatusBar,
