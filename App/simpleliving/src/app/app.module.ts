@@ -38,6 +38,8 @@ const cloudSettings: CloudSettings = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    CloudModule.forRoot(cloudSettings),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
