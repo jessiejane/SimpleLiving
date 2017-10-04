@@ -17,6 +17,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { HttpModule } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
+import { RestService }  from '../services/restService';
+import { ConfigService }  from '../services/configService';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -64,6 +66,8 @@ const cloudSettings: CloudSettings = {
     HouseholdDetailsPage
   ],
   providers: [
+    RestService,
+    ConfigService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
