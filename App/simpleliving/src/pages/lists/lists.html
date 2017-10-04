@@ -10,15 +10,23 @@
 <ion-content>
   <ion-list>
     <button ion-item *ngFor="let list of lists" (click)="showItems(list.ListId)">
-      <div *ngIf="listitems != undefined && listitems[0].ListId == list.ListId">
-      <div ion-item *ngFor="let item of listitems" >{{item.Name}}</div>
-    </div>
+      <div *ngIf="list.ListId != 3">
+      {{list.Name}}
+      <div *ngIf="listitems != undefined && listitems.length != 0 && listitems[0].ListId == list.ListId">
+        <div ion-item *ngFor="let item of listitems" >{{item.Name}}
+
+        <ion-icon tappable (click)="addItem(item);" name="add" item-end></ion-icon>
+          <ion-icon name="remove" item-end></ion-icon>
+          <ion-badge item-end>{{item.Quantity}}</ion-badge>
+        </div>
+
+      </div>
      <!--  <ion-icon [name]="item.icon" item-start></ion-icon>
       {{item.title}}
       <div class="item-note" item-end>
         <ion-badge item-end>{{item.note}}</ion-badge>
       </div> -->
-      {{list.Name}}
+      </div>
     </button>
   </ion-list>
 </ion-content>

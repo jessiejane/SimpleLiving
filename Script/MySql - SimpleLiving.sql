@@ -20,6 +20,7 @@ create table User(
     HouseId int default null,
     Name varchar(200),
     VenmoId varchar(100),
+    MasterVenmoToken varchar(100),
     DeviceId varchar(100),
     ImageUrl varchar(500),
     DeviceToken varchar(100),
@@ -33,19 +34,17 @@ create table User(
 
 use SimpleLiving;
 create table Config(
-    DeviceToken varchar(100),
-    MasterVenmoToken varchar(100)
+    DeviceToken varchar(100)
 );
 
 use SimpleLiving;
 insert into Config (DeviceToken) values ('ba4ac0018e35d89f2547ac73048c98b5aa5e98e156ca13173241d52fcd4b3c67');
-insert into Config (MasterVenmoToken) values('0d6b5717aee2164764398bdecc67b6bf34598e154cc4d6a566236ed6d0ddcec3');
 
 use SimpleLiving;
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (1, 1, 'Jessie Dahlquist', 'Jessie-Dahlquist' , uuid()); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (2, 1, 'Kevin Tanner', 'Kevin-Tanner-2' , uuid()); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (3, 1, 'Selam Yihun', 'Selam-Yihun1' , uuid()); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (4, 1, 'John Griffin', 'jhgriffin' ,uuid()); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (1, 1, 'Jessie Dahlquist', 'Jessie-Dahlquist' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (2, 1, 'Kevin Tanner', 'Kevin-Tanner-2' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (3, 1, 'Selam Yihun', 'Selam-Yihun1' , uuid(),'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (4, 1, 'John Griffin', 'jhgriffin' ,uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
 
 
 use SimpleLiving;

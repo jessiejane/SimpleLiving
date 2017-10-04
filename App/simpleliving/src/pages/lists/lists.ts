@@ -45,6 +45,11 @@ export class ListsPage {
       });
     console.log('get items for listid: '+listid);
   }
+
+  addItem(item: any) {
+    item.Quantity +=1;
+    this.restService.updateListItemQuantity(item);
+  }
   pushPage(){
     //this.appCtrl.getRootNav().push(InventoryPage);
     this.navCtrl.push(ListPage);

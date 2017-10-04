@@ -46,4 +46,10 @@ takePicture(){
         console.log(err);
     });
   }
+
+splitBill() {
+  this.restService.splitBill(this.total).then(data => {
+          console.log(data);
+        });
+}
 }
