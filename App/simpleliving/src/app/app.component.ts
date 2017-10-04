@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-import { BillsplitterPage } from '../pages/billsplitter/billsplitter';
+import { BillSplitterPage } from '../pages/billSplitter/billsplitter';
 import { HistoryPage } from '../pages/history/history';
 import { InventoryPage } from '../pages/inventory/inventory';
 import { HouseholdDetailsPage } from '../pages/householddetails/householddetails';
@@ -28,7 +28,7 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'Lists', component: ListPage },
       { title: "Inventory", component:InventoryPage},
-      { title: "Bill Splitter", component: BillsplitterPage },
+      { title: "Bill Splitter", component: BillSplitterPage },
       { title: "Household Details", component:HouseholdDetailsPage },
       { title: "Graphs & Reports", component: HistoryPage}
     ];

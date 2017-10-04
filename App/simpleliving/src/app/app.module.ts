@@ -5,7 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-import { BillsplitterPage } from '../pages/billsplitter/billsplitter';
+import { BillSplitterPage } from '../pages/billSplitter/billsplitter';
 import { HistoryPage } from '../pages/history/history';
 import { InventoryPage } from '../pages/inventory/inventory';
 import { HouseholdDetailsPage } from '../pages/householddetails/householddetails';
@@ -38,7 +38,7 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     ListPage,
-    BillsplitterPage,
+    BillSplitterPage,
     HistoryPage,
     InventoryPage,
     HouseholdDetailsPage
@@ -54,7 +54,7 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     ListPage,
-    BillsplitterPage,
+    BillSplitterPage,
     HistoryPage,
     InventoryPage,
     HouseholdDetailsPage
