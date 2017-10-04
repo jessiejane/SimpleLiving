@@ -19,7 +19,7 @@ port.on('open', function(){
 	  
 	  var productID = data[7];
 	  var sensorReading = data.substring(19);
-	  console.log("Sensor: " + productID + ' cm: ' + sensorReading);
+	  console.log("Sensor: " + productID + ' in: ' + sensorReading);
 	  
 	  if(productID == 1)
 	  {
@@ -31,8 +31,13 @@ port.on('open', function(){
 		  }
 		  else if(s1Reading != sensorReading)
 		  {
-			  s1Reading = sensorReading;
-			  postSensor(productID, s1Reading);
+			  if(s1Reading >= 14 && sensorReading >= 14)
+			  {
+				  console.log("SENSOR 1 NOT SENDING")
+			  }else{
+				  s1Reading = sensorReading;
+				  postSensor(productID, s1Reading);
+			  }
 		  }
 	  }
 	  
@@ -46,8 +51,13 @@ port.on('open', function(){
 		  }
 		  else if(s2Reading != sensorReading)
 		  {
-			  s2Reading = sensorReading;
-			  postSensor(productID, s2Reading);
+			  if(s2Reading >= 14 && sensorReading >= 14)
+			  {
+				  console.log("SENSOR 2 NOT SENDING")
+			  } else {
+				s2Reading = sensorReading;
+				postSensor(productID, s2Reading);
+			  }
 		  }
 	  }
 
