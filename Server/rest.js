@@ -502,16 +502,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     router.post("/sensorReading", function (req, res) {
         var itemId = req.body.itemId;
         var itemCount = calculateItemQty(req.body.sensorReading);
-        var query = "SELECT * from Config";
-        var table = ["Item", "ItemId", req.params.ItemId];
-        query = mysql.format(query, table);
-        connection.query(query, function (err, rows) {
-            if (err) {
-                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
-            } else {
-                res.json({ "Error": false, "Message": "Deleted the item with id " + req.params.ItemId });
-            }
-        });
+        
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
             push(deviceToken);

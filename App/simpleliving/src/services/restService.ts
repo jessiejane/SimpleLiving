@@ -41,7 +41,7 @@ export class RestService {
 	
 	splitBill(splitTotal: number): Promise<any> {
         let headers = new Headers();
-		var amount = splitTotal/3;
+		var amount = splitTotal/4;
          headers.append("Content-Type","application/json");
          let body = {
 			"users": [
