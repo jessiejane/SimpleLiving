@@ -11,8 +11,8 @@ function REST_ROUTER(router, connection, md5) {
 
 
 function calculateItemQty(sensorReading){
-    var itemSize = 5;
-    var emptySize = 50;
+    var itemSize = 3;
+    var emptySize = 20;
     var distance = emptySize - sensorReading;
     return Math.round(Number(distance/itemSize));     
 }
