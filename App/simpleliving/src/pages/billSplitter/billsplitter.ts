@@ -47,3 +47,8 @@ takePicture(){
     });
   }
 }
+splitBill() {
+  this.restService.SplitBill(this.total).then(data => {
+          console.log(data);
+        })
+}
