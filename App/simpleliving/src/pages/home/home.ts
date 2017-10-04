@@ -19,7 +19,7 @@ export class HomePage {
   imageThumbnail: string[];
   items: Array<{eventSummary: string, eventTime: string, icons: string, imageThumbnail:string}>;
 
-  constructor(public navCtrl: NavController, public push: Push, public http: Http, public config: ConfigService,public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public push: Push, public http: Http, public config: ConfigService,public alertCtrl: AlertController, public restService: RestService) {
     var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
     if ( app ) {
         //we are running on a device
@@ -50,7 +50,9 @@ presentAlert() {
     subTitle: 'You now have 0 Toilet Paper rolls left',
     buttons: [{text:'Update My List',
     handler: () => {
-
+      this.restService.updateSSQuantity().then(res =>{
+        console.log(res);
+      })
     }},
     {text:'Restock on Amazon',
     handler: () => {

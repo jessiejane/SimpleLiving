@@ -91,7 +91,7 @@ create table Item(
 );
 
 use SimpleLiving;
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=133-8971498-2032938&associate-id=123402bb-20&hmac=uztkD9ycMp52gsM%2FIqAIFA9rscQ%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=133-8971498-2032938&associate-id=123402bb-20&hmac=uztkD9ycMp52gsM%2FIqAIFA9rscQ%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 1);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (2, 1, 'Bounty Paper Towel', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=142-8755991-1155408&associate-id=123402bb-20&hmac=K5u5oy8vE5aMRd5k0mZ5GpTtz2s%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (3, 1, 'Milk', false, 1, 'Milk', 2);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (4, 1, 'Bacon', false, 1, 'Protein', 3);
