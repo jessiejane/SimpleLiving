@@ -11,7 +11,7 @@
   <ion-list>
       <ion-grid *ngFor="let transaction of listTransactions">
         <ion-item>
-		  <p> {{transaction.fromName}} paid {{transaction.toName}} ${{amount}} for {{description}} </p>
+		  <p> {{transaction.fromName}} paid {{transaction.toName}} ${{transaction.amount}} for {{transaction.description}} on {{transactionDate}} </p>
         </ion-item>
       </ion-grid>
   </ion-list>
