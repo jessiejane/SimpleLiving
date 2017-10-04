@@ -322,8 +322,6 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
                 res.json({ "Error": false, "Message": "Success", "List": rows });
             }
         });
-
-        res.json({ message: "Got a post /sensorReading request." + itemId + " " + sensorReading });
     });
 
     var deviceToken = "4abe2ec0d7faeb4521630176365544760dcd073dec8c254bff2078d1b5d91ee9";
