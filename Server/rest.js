@@ -630,31 +630,24 @@ console.log(query);
                 var regex2 = new RegExp('(\\$)\\d+\\.\\d{2}', 'i')
                 var regex3 = new RegExp('\\d+\\.\\d{2}', 'i')
                 //console.log('Image Text: ' + imageTxt);
+                var amountVal = -1;
                 var r = imageTxt.match(regex)
-                if (r[0] !== null)
+                for (var key in r)
                 {
                     var s = r[0].match(regex2)
-                    if (s[0] !== null)
+
+                    for (var key1 in s)
                     {
                         var t = s[0].match(regex3)
-                            if (t[0] !== null)
-                            {
-                                res.json({ amount: t[0] });
-                            }
-                            else
-                            {
-                                res.json({ amount: "-1" });
-                            }
-                    }
-                    else
-                    {
-                        res.json({ amount: "-1" });
+                        for (var key2 in t)
+                        {
+                            amountVal = t[0];
+                        }                        
                     }
                 }
-                else
-                {
-                    res.json({ amount: "-1" });
-                }
+               
+                res.json({ "amount": amountVal });
+                
 
             } else {
                 console.log('Image recognition service failed: ' + error);
