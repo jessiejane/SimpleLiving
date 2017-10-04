@@ -45,10 +45,11 @@ function insertTransaction(req, connection, amount, userId)
     var type = req.body.type;
     var venmoId;
     var houseId;
+	var masterToken;
 
     getTransactionGroupId(connection).then(function(data){
         var trnGrpId = data;
-        var query = "SELECT VenmoId,HouseId FROM ?? WHERE ?? = ?";
+        var query = "SELECT VenmoId,HouseId,MasterVenmoToken FROM ?? WHERE ?? = ?";
         var params = ["user", "userId", userId];
         query = mysql.format(query, params);
 
@@ -56,13 +57,46 @@ function insertTransaction(req, connection, amount, userId)
             if (err) {
                 console.log(JSON.stringify({ "Error": true, "Message": "Error executing MySQL query: " + err }));
             } else {
-                // send venmo request
+                
+
                 // update transaction
                 if(rows[0] !== null)
                 {
                     venmoId = rows[0].VenmoId;
                     houseId = rows[0].HouseId;
+					masterToken = rows[0].MasterVenmoToken;
                 }
+				
+				// send venmo request
+				console.log("############## " + venmoId + " #################")
+				var jsonBody =  JSON.stringify({ 	
+									"access_token": masterToken,
+									"username": venmoId,
+									"note": description,
+									"amount": "-" + amount,
+									"audience": "private"
+								})
+				var headers = {
+					'Content-Type': 'application/json'
+				}
+				var options = {
+					url: 'https://api.venmo.com/v1/payments',
+					method: 'POST',
+					headers: headers,
+					body: jsonBody
+				}
+				
+				// Start the request
+				request(options, function (error, response, body) {
+					if (!error && response.statusCode == 200) {
+						console.log("succeess");
+					} else {
+						console.log('Venmo service failed: ' + error);
+					}
+				});
+			}
+
+				
 
                 var query = "INSERT INTO transaction (HouseId,Date,Amount,RecipientToId,RecipientFromId,TransactionGroupId,ImageUrl,Description,Type) VALUES (?,?,?,?,?,?,?,?,?)";
                 var params = [houseId, new Date(), parseFloat(amount), parseInt(userId), parseInt(fromCustomerId), parseInt(trnGrpId), null,description, type];
@@ -78,10 +112,9 @@ function insertTransaction(req, connection, amount, userId)
                     }
                 });
 
-            }
+            });
         });
-    });
-}
+    }
 
 REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     var self = this;
