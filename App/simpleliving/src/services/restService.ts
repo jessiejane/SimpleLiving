@@ -116,15 +116,16 @@ export class RestService {
     updateSSQuantity(): Promise<any> {
       console.log("Update Smark Stock Item")
       //TODO render this data dynamically from sensor
-      var item;
-      item.HouseId = 1;
-      item.Quantity = 0;
-      item.IsSmartStock = 1;
-      item.ItemId= 1;
+      var item: any = {};
+      item.HouseId = "1";
+      item.Quantity = "0";
+      item.IsSmartStock = "1";
+      item.ItemId= "1";
       item.Name= "Angel Soft 2 Ply Toilet Paper";
-      item.ListId= 3;
+      item.ListId= "3";
       item.Description= "Protein";
       item.AmazonProductUrl= "B00FFJ2LXU";
+      item.SensorReading = undefined;
       let headers = new Headers();
          headers.append("Content-Type","application/json");
          let body = {

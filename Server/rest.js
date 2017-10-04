@@ -468,7 +468,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.patch("/items/:ItemId", function (req, res) {
-        console.log("posting to item")
+        console.log("posting to item: "+JSON.stringify(req.body.item))
         if (req.body.item == undefined) {
             var itemCount = calculateItemQty(req.body.SensorReading)
 
@@ -479,8 +479,9 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             }
         }
         else {
-            req.body = item;
-            itemCount = item.Quantity;
+            itemCount = req.body.item.Quantity;
+            req.body = req.body.item;
+            
         }
         var query = "UPDATE ?? SET ?? = ?, ? = ?, ? = ?, ? = ?, ?? = ?, ? = ?, ? = ?, ? = ? WHERE ?? = ?";
         var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock, 
@@ -488,7 +489,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId];
 
         query = mysql.format(query, params);
-
+console.log(query);
         connection.query(query, function (err, rows) {
             if (err) {
                 res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
