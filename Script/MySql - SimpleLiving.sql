@@ -17,7 +17,7 @@ insert into House (HouseId, Name, Address, BulletinInfo) values (1, 'Alexa', '15
 use SimpleLiving;
 create table User(
 	UserId int not null auto_increment,
-    HouseId int not null,
+    HouseId int default null,
     Name varchar(200),
     VenmoId varchar(100),
     DeviceId varchar(100),

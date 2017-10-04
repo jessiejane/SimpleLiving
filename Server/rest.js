@@ -1,3 +1,4 @@
+"use strict"
 var mysql = require("mysql");
 var request = require('request');
 var push = require("./push.js");
@@ -14,6 +15,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         res.json({ "Message": "Hello World !" });
     });
     
+    //#region User Crud Operation 
     router.get("/user", function (req, res) {
         var query = "SELECT * FROM ??";
         var params = ["User"];
@@ -71,6 +73,22 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
+    router.patch("/user/:UserId", function (req, res) {
+        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
+        var params = ["User", "HouseId", req.body.HouseId, "Name", req.body.Name, "VenmoId", req.body.VenmoId, "DeviceId", req.body.DeviceId,
+                    "ImageUrl", req.body.ImageUrl, "DeviceToken", reqb.body.DeviceToken, "ItemId", req.params.UserId];
+
+        query = mysql.format(query, params);
+
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "User with id " + req.params.UserId + " was updated", "User": rows });
+            }
+        });
+    });
+
     router.delete("/user/:UserId/", function (req, res) {
         var query = "DELETE from ?? WHERE ??=?";
         var table = ["User", "UserId", req.params.UserId];
@@ -83,7 +101,9 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             }
         });
     });
+    //#endregion User Crud Operation 
 
+    //#region House Crud Operation
     router.get("/house", function (req, res) {
         var query = "SELECT * FROM ??";
         var params = ["House"];
@@ -126,6 +146,19 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
+    router.put("/house/:HouseId/", function (req, res) {
+        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
+        var table = ["House", "Name", req.body.Name, "Address", req.body.Address, "BulletinInfo", req.body.BulletinInfo, "HouseId", req.params.HouseId];
+        query = mysql.format(query, table);
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "House with id " + req.params.HouseId + " was updated" + req.params.UserId });
+            }
+        });
+    });
+
     router.delete("/house/:HouseId/", function (req, res) {
         var query = "DELETE from ?? WHERE ??=?";
         var table = ["House", "HouseId", req.params.HouseId];
@@ -138,6 +171,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             }
         });
     });
+    //#endregion House Crud Operation
 
     router.get("/lists", function (req, res) {
         var query = "SELECT * FROM ??";
@@ -269,7 +303,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
         var params = ["Item", "SensorReading", req.body.SensorReading, "ItemId", req.params.ItemId];
-        query = mysql.format(query, table);
+        query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
             if (err) {
@@ -312,7 +346,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
         var params = ["Item", "SensorReading", req.body.sensorReading, "ItemId", req.body.ItemId];
-        query = mysql.format(query, table);
+        query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
             if (err) {
