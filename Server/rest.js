@@ -311,7 +311,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         }
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
-        var params = ["Item", "SensorReading", req.body.sensorReading, "ItemId", req.body.ItemId];
+        var params = ["Item", "Quantity", itemCount, "ItemId", req.body.ItemId];
         query = mysql.format(query, table);
 
         connection.query(query, function (err, rows) {
