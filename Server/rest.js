@@ -437,9 +437,9 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 	
 	router.get("/transactions/:HouseId", function (req, res) {
-        var query = "SELECT * FROM ?? WHERE ?? = ?";
-        var params = ["transaction", "HouseId", req.params.HouseId];
-        query = mysql.format(query, params);
+        var query = "SELECT A.Date, A.amount, B.name as fromName, C.name as toName, A.description " +
+					"FROM Transaction as A join User as B on A.recipientFromId = B.UserID join User as C on A.recipientToId = C.UserId  " +
+					"Where A.houseid = 1 order by A.transactionGroupId";
 
         connection.query(query, function (err, rows) {
             if (err) {

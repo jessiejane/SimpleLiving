@@ -8,6 +8,9 @@ import { Http, Headers } from '@angular/http';
 import { ConfigService } from '../../services/configService'
 import { AlertController } from 'ionic-angular';
 import { RestService } from '../../services/restService'
+
+
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -18,6 +21,7 @@ export class HomePage {
   eventTime: string[];
   imageThumbnail: string[];
   items: Array<{eventSummary: string, eventTime: string, icons: string, imageThumbnail:string}>;
+  listTransactions: Array<any>;
 
   constructor(public navCtrl: NavController, public push: Push, public http: Http, public config: ConfigService,public alertCtrl: AlertController, public restService: RestService) {
     var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
@@ -25,24 +29,11 @@ export class HomePage {
         //we are running on a device
         this.registerForPush();
     } 
-
-    //setting up sample newsfeed just for a mockup
-    this.eventSummary = ["Here's an example of a transaction", "Person 1 did something",
-    "Person 2 requested money", "Someone did a chore"]
-    this.eventTime = ["45m","2h","1d","2d"]
-    this.icons = ["thumbs-up"]
-    this.imageThumbnail = ["assets/img/imgPlaceHolder.png"]
-
-    this.items = []
-    for (let i = 0; i < this.eventSummary.length; i++) {
-      this.items.push({
-        eventSummary: this.eventSummary[i],
-        eventTime: this.eventTime[i],
-        imageThumbnail: this.imageThumbnail[0],
-        icons: this.icons[0]
-      })
-    }
-
+	
+	 
+	this.restService.getAllTransactionsByHouseId(1).then(data => {
+		this.listTransactions = data.Item;
+	});
   }
 presentAlert() {
   const alert = this.alertCtrl.create({

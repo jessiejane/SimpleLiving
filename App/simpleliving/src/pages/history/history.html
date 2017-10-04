@@ -8,7 +8,129 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>History</h3>
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="detailSegment">
+      <ion-segment-button value="overall">
+        Overall Spending
+      </ion-segment-button>
+      <ion-segment-button value="date">
+        Transactions by Date
+      </ion-segment-button>
+      <ion-segment-button value="type">
+        Transactions by Type
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+
+  <div [ngSwitch]="detailSegment">
+    <ion-list *ngSwitchCase="'overall'">
+      <ion-item>
+          <img  src="assets/img/OverallSpend.jpg">
+
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div [ngSwitch]="detailSegment">
+    <ion-list *ngSwitchCase="'date'">
+
+      <ion-toolbar no-border-top>
+        <ion-segment [(ngModel)]="subDetailSegment">
+          <ion-segment-button value="year">
+            Year
+          </ion-segment-button>
+          <ion-segment-button value="month">
+            Month
+          </ion-segment-button>
+          <ion-segment-button value="week">
+            Week
+          </ion-segment-button>
+        </ion-segment>
+      </ion-toolbar>
+
+      <div [ngSwitch]="subDetailSegment">
+        <ion-list *ngSwitchCase="'year'">
+          <ion-item>
+              <img  src="assets/img/ytd.jpg">
+
+
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div [ngSwitch]="subDetailSegment">
+        <ion-list *ngSwitchCase="'month'">
+          <ion-item>
+              <img src="assets/img/monthly.jpg">
+
+
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div [ngSwitch]="subDetailSegment">
+        <ion-list *ngSwitchCase="'week'">
+          <ion-item>
+              <img src="assets/img/weekly.jpg">
+
+
+
+          </ion-item>
+        </ion-list>
+      </div>
+
+
+    </ion-list>
+  </div>
+
+  <div [ngSwitch]="detailSegment">
+    <ion-list *ngSwitchCase="'type'">
+
+      <ion-toolbar no-border-top>
+        <ion-segment [(ngModel)]="subTypeDetailSegment">
+          <ion-segment-button value="utilities">
+            Utilities
+          </ion-segment-button>
+          <ion-segment-button value="rent">
+            Rent
+          </ion-segment-button>
+          <ion-segment-button value="other">
+            Other
+          </ion-segment-button>
+        </ion-segment>
+      </ion-toolbar>
+
+
+      <div [ngSwitch]="subTypeDetailSegment">
+        <ion-list *ngSwitchCase="'utilities'">
+          <ion-item>
+
+
+
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div [ngSwitch]="subTypeDetailSegment">
+        <ion-list *ngSwitchCase="'rent'">
+          <ion-item>
+
+
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div [ngSwitch]="subTypeDetailSegment">
+        <ion-list *ngSwitchCase="'other'">
+          <ion-item>
+
+
+          </ion-item>
+        </ion-list>
+      </div>
+
+    </ion-list>
+  </div>
+
 </ion-content>

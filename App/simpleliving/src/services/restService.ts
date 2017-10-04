@@ -112,6 +112,7 @@ export class RestService {
           return Observable.throw(error.json());
         }).toPromise()
     }
+
     updateSSQuantity(): Promise<any> {
       console.log("Update Smark Stock Item")
       //TODO render this data dynamically from sensor
@@ -138,4 +139,15 @@ export class RestService {
         }).toPromise()
 
     }
+
+	
+	public getAllTransactionsByHouseId(houseId: number): Promise<any> {
+        return this.http.get(this.requestUrl+"transactions/"+houseId)
+        .map(response => {
+               return response.json() || { success: false, message: "No response from server" };
+           }).catch((error: Response | any) => {
+               return Observable.throw(error.json());
+           }).toPromise();
+   }
+
 }
