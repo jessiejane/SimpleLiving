@@ -5,8 +5,10 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-import { BillsplitterPage} from '../pages/billsplitter/billsplitter';
-
+import { BillsplitterPage } from '../pages/billsplitter/billsplitter';
+import { HistoryPage } from '../pages/history/history';
+import { InventoryPage } from '../pages/inventory/inventory';
+import { HouseholdDetailsPage } from '../pages/householddetails/householddetails';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -16,7 +18,7 @@ import { HttpModule } from '@angular/http';
 
 const cloudSettings: CloudSettings = {
   'core': {
-    'app_id': '9b3916cd'
+    'app_id': 'fae29603'
   },
   'push': {
     'sender_id': '11223344',
@@ -36,7 +38,10 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     ListPage,
-    BillsplitterPage
+    BillsplitterPage,
+    HistoryPage,
+    InventoryPage,
+    HouseholdDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -49,7 +54,10 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     ListPage,
-    BillsplitterPage
+    BillsplitterPage,
+    HistoryPage,
+    InventoryPage,
+    HouseholdDetailsPage
   ],
   providers: [
     StatusBar,

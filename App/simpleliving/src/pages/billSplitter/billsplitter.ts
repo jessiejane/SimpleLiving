@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-
 /*
 import {
   Push,
@@ -11,10 +10,9 @@ import { Http, Headers } from '@angular/http';
 
 
 @Component({
-  selector: 'page-billSplitter',
+  selector: 'page-billsplitter',
   templateUrl: 'billsplitter.html'
 })
 export class BillsplitterPage {
 
-
-    }
+}

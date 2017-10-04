@@ -11,10 +11,35 @@ import { Http, Headers } from '@angular/http';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  icons: string[];
+  eventSummary: string[];
+  eventTime: string[];
+  imageThumbnail: string[];
+  items: Array<{eventSummary: string, eventTime: string, icons: string, imageThumbnail:string}>;
 
   constructor(public navCtrl: NavController, public push: Push, public http: Http) {
 
+  	//this.registerForPush();
+
+    //setting up sample newsfeed just for a mockup
+    this.eventSummary = ["Here's an example of a transaction", "Person 1 did something",
+    "Person 2 requested money", "Someone did a chore"]
+    this.eventTime = ["45m","2h","1d","2d"]
+    this.icons = ["thumbs-up"]
+    this.imageThumbnail = ["assets/img/imgPlaceHolder.png"]
+
+    this.items = []
+    for (let i = 0; i < this.eventSummary.length; i++) {
+      this.items.push({
+        eventSummary: this.eventSummary[i],
+        eventTime: this.eventTime[i],
+        imageThumbnail: this.imageThumbnail[0],
+        icons: this.icons[0]
+      })
+    }
+
   }
+
   public registerForPush() {
 		//below code will throw an error if not running on a device
 	  	 this.push.register().then((t: PushToken) => {

@@ -20,11 +20,13 @@
         "@angular/http": "4.4.3",
         "@angular/platform-browser": "4.4.3",
         "@angular/platform-browser-dynamic": "4.4.3",
-        "@ionic-native/core": "4.3.0",
-        "@ionic-native/splash-screen": "4.3.0",
-        "@ionic-native/status-bar": "4.3.0",
+        "@ionic-native/core": "^3.12.1",
+        "@ionic-native/firebase": "^4.3.0",
+        "@ionic-native/splash-screen": "3.12.1",
+        "@ionic-native/status-bar": "3.12.1",
         "@ionic/cloud-angular": "^0.12.0",
         "@ionic/storage": "2.0.1",
+        "cordova-android": "^6.2.3",
         "cordova-ios": "^4.4.0",
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-splashscreen": "^4.0.3",
@@ -45,16 +47,17 @@
     "description": "An Ionic project",
     "cordova": {
         "plugins": {
+            "phonegap-plugin-push": {
+                "SENDER_ID": "11223344"
+            },
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
-            "ionic-plugin-keyboard": {},
-            "phonegap-plugin-push": {
-                "SENDER_ID": "11223344"
-            }
+            "ionic-plugin-keyboard": {}
         },
         "platforms": [
+            "android",
             "ios"
         ]
     }

@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>Your Shared Lists</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -13,11 +13,20 @@
       <ion-icon [name]="item.icon" item-start></ion-icon>
       {{item.title}}
       <div class="item-note" item-end>
-        {{item.note}}
+        <ion-badge item-end>{{item.note}}</ion-badge>
       </div>
     </button>
   </ion-list>
+
   <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>
+    <ion-list>
+      <button ion-item *ngFor="let listItem of listItems">
+        {{listItem.title}}
+        <div class="listItem-note" item-end>
+          <ion-badge item-end>{{listItem.note}}</ion-badge>
+        </div>
+      </button>
+    </ion-list>
   </div>
 </ion-content>
