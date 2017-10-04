@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import { App, NavController, NavParams } from 'ionic-angular';
+import { ListPage } from '../list/list';
+import { InventoryPage } from '../inventory/inventory';
 
 @Component({
-  selector: 'page-list',
-  templateUrl: 'list.html'
+  selector: 'page-lists',
+  templateUrl: 'lists.html'
 })
-export class ListPage {
-  selectedItem: any;
+export class ListsPage {
   icons: string[];
   listNames: string[];
   items: Array<{title: string, note: number, icon: string}>;
 
-  constructor(public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
-    this.icons = ['basket', 'cash', 'cart', 'clipboard', 'hammer', 'bulb', 'beer' ];
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
 
+    this.icons = ['basket', 'cash', 'cart', 'clipboard', 'hammer', 'bulb', 'beer' ];
     this.listNames = ['Groceries', 'Bills', 'Cleaning Supplies', 'Household Chores',
     'Maintenance Requests', 'Hardware', 'Events']
     this.items = [];
@@ -27,5 +26,10 @@ export class ListPage {
         icon: this.icons[i-1]
       });
     }
+  }
+
+  pushPage(){
+    //this.appCtrl.getRootNav().push(InventoryPage);
+    this.navCtrl.push(ListPage);
   }
 }

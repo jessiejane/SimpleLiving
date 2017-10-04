@@ -11,10 +11,7 @@
   <h3>Bill Splitter</h3>
 <ion-card>
   <ion-card-content>
-        Take a picture of your bill to split:
-
-        <button (click)="takePicture()">Take a Picture</button>
-        Latest Picture:
+        <button ion-button color="twitter" (click)="takePicture()">Upload Bill</button>
         <img [src]="base64Image" *ngIf="base64Image" />
       </ion-card-content>
     </ion-card>

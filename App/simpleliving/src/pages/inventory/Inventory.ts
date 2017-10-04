@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Http, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 /*
 import {
@@ -19,8 +21,8 @@ export class InventoryPage {
   icons: string[];
   listNames: string[];
   items: Array<{title: string, note: number, icon: string}>;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  listitems: Array<any>;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
@@ -37,8 +39,20 @@ export class InventoryPage {
         icon: this.icons[i-1]
       });
     }
+    this.populateInventory().then(response => {
+    this.listitems = response.Item;
+  });
   }
-
+  populateInventory(): Promise<any> {
+    let headers = new Headers();
+    headers.append("Content-Type","application/json");
+    return this.http.get("https://97de7914.ngrok.io/api/items")
+    .map(response => {
+      return response.json() || {success: false, message: "No response from server"};
+    }).catch((error: Response | any) => {
+      return Observable.throw(error.json());
+    }).toPromise();
+  }
   itemTapped(event, item) {
     // That's right, we're pushing to ourselves!
     this.navCtrl.push(InventoryPage, {
