@@ -31,7 +31,7 @@ function getTransactionGroupId(connection)
                 }
                 else
                 {
-                    resolve(1);
+                    resolve("1");
                 }
             }
         }); 
@@ -425,6 +425,20 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     router.get("/items/:ItemId", function (req, res) {
         var query = "SELECT * FROM ?? WHERE ?? = ?";
         var params = ["Item", "ItemId", req.params.ItemId];
+        query = mysql.format(query, params);
+
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "Success", "Item": rows });
+            }
+        });
+    });
+	
+	router.get("/transactions/:HouseId", function (req, res) {
+        var query = "SELECT * FROM ?? WHERE ?? = ?";
+        var params = ["transaction", "HouseId", req.params.HouseId];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {

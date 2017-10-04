@@ -128,3 +128,7 @@ create table Transaction(
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT    
 );
+
+use SimpleLiving;
+insert into Transaction(HouseId, Date, Amount, RecipientToId, RecipientFromId, TransactionGroupId, ImageUrl, Description, Type) 
+values (1, '2017-10-04', 21, 1, 2, 2, 'www.google.com', 'description', 'type');
