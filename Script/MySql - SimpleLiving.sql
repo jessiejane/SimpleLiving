@@ -32,6 +32,14 @@ create table User(
 );
 
 use SimpleLiving;
+create table Config(
+    DeviceToken varchar(100)
+);
+
+use SimpleLiving;
+insert into Config (DeviceToken) values ('ba4ac0018e35d89f2547ac73048c98b5aa5e98e156ca13173241d52fcd4b3c67');
+
+use SimpleLiving;
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (1, 1, 'Jessie Dahlquist', uuid(), uuid()); 
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (2, 1, 'Kevin Tanner', uuid(), uuid()); 
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (3, 1, 'Selam Yihun', uuid(), uuid()); 
