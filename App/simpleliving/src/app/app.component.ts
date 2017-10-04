@@ -23,7 +23,6 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
-    console.log("I AM IN HERE")
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },

@@ -15,4 +15,10 @@
         <img [src]="base64Image" *ngIf="base64Image" />
       </ion-card-content>
     </ion-card>
+    <ion-card>
+    <ion-card-content *ngIf="total">
+        Total : {{total}}
+        <button ion-button color="twitter" (click)="split()">Split</button>
+    </ion-card-content>
+    </ion-card>
 </ion-content>
