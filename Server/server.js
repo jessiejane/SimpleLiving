@@ -4,7 +4,19 @@ var bodyParser  = require("body-parser");
 var md5 = require('MD5');
 var rest = require("./rest.js");
 var app  = express();
-
+app.use(express.static(__dirname + '/static'));
+app.get('/push', function(req,res) {
+ sendPush(deviceToken);
+ res.redirect('/index.html')
+});
+app.get('/pushSmart', function(req,res) {
+ sendPush(deviceToken, true);
+ res.redirect('/index.html')
+});
+app.get('/push', function(req,res) {
+ sendPush(deviceToken);
+ res.redirect('/index.html')
+});
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -30,8 +42,8 @@ REST.prototype.connectMysql = function() {
     var pool      =    mysql.createPool({
         connectionLimit : 100,
         host     : 'localhost',
-        user     : 'root',
-        password : 'cats',
+        user     : 'user',
+        password : 'user',
         database : 'SimpleLiving',
         debug    :  true
     });

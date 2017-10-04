@@ -1,7 +1,5 @@
 var apn = require('apn');
-var deviceToken = "17f66edd2294c454ba6a9847b133264b9e2a61cba78992b8181de1f8a895b572";
-
-module.exports = function sendPush(token) {
+module.exports = function sendPush(token, smartStock) {
 
   	console.log('push sent with token: '+token);
     var options = {
@@ -12,8 +10,7 @@ module.exports = function sendPush(token) {
       rejectUnauthorized:false
     };
     var apnProvider = new apn.Provider(options);
-    if (token != undefined)
-      deviceToken = token;
+    
     
     var note = new apn.Notification();
 
@@ -22,9 +19,17 @@ module.exports = function sendPush(token) {
     note.sound = "ping.aiff";
     note.alert = "The post has been delivered";
     note.payload = {'messageFrom': 'John Appleseed'};
+    if (smartStock == true) 
+      note.payload = {'messageFrom': 'smartStock'};
     note.topic = "io.ionic.simpleliving";
-    
-    apnProvider.send(note, deviceToken).then( (result) => {
+    note.buttons= [
+      {
+          text: 'Nope',
+          handler: data => {
+            console.log('Nope clicked');
+          }
+      }]
+    apnProvider.send(note, token).then( (result) => {
       console.log(JSON.stringify(result));
     });
   }

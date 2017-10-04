@@ -514,8 +514,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
-            push("4abe2ec0d7faeb4521630176365544760dcd073dec8c254bff2078d1b5d91ee9");
-            push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29");
+            push(deviceToken);
+            //push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29");
             // add notification code here
         }
 
@@ -531,7 +531,16 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             }
         });
     });
-var deviceToken;
+    var deviceToken;
+        router.get('/push', function (req, res) {
+            push(deviceToken);
+            res.redirect('/index.html')
+        });
+        router.get('/pushSmart', function (req, res) {
+            push(deviceToken,true);
+            res.redirect('/index.html')
+        });
+
     router.put('/token', function (req, res) {
         deviceToken = req.body.token;
         console.log("received device token: " + req.body.token);

@@ -6,6 +6,7 @@ import {
 } from '@ionic/cloud-angular';
 import { Http, Headers } from '@angular/http';
 import { ConfigService } from '../../services/configService'
+import { AlertController } from 'ionic-angular';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -17,7 +18,7 @@ export class HomePage {
   imageThumbnail: string[];
   items: Array<{eventSummary: string, eventTime: string, icons: string, imageThumbnail:string}>;
 
-  constructor(public navCtrl: NavController, public push: Push, public http: Http, public config: ConfigService) {
+  constructor(public navCtrl: NavController, public push: Push, public http: Http, public config: ConfigService,public alertCtrl: AlertController) {
     var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
     if ( app ) {
         //we are running on a device
@@ -42,6 +43,20 @@ export class HomePage {
     }
 
   }
+presentAlert() {
+  const alert = this.alertCtrl.create({
+    title: 'Smart Stock Update',
+    subTitle: 'You now have 0 Toilet Paper rolls left',
+    buttons: ['Update My List',
+    {text:'Restock on Amazon',
+    handler: () => {
+      window.open("https://www.amazon.com/gp/cart/aws-merge.html?cart-id=133-8971498-2032938&associate-id=123402bb-20&hmac=uztkD9ycMp52gsM%2FIqAIFA9rscQ%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False",'_system', 'location=yes');
+
+    }},
+    'Don\'t Update']
+  });
+  alert.present();
+}
 
   public registerForPush() {
 		//below code will throw an error if not running on a device
@@ -65,6 +80,11 @@ export class HomePage {
 
 		this.push.rx.notification()
 		  .subscribe((msg) => {
-		    alert(/*msg.title + ': ' + */ msg.text);
+        //console.log("notification received: "+ JSON.stringify(msg));
+        if (msg.raw.additionalData.messageFrom != "smartStock")
+		      alert(/*msg.title + ': ' + */ msg.text);
+        else {
+          this.presentAlert();
+        }
 		});}
 }
