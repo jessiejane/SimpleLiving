@@ -17,6 +17,72 @@ function calculateItemQty(sensorReading){
     return Math.round(Number(distance/itemSize));     
 }
 
+function getTransactionGroupId(connection)
+{
+     return new Promise(function(resolve,reject) {
+        connection.query("SELECT MAX(TransactionGroupId) AS TransactionGroupId FROM transaction", function (err, rows) {
+            if (err) {
+                reject();
+            } else {
+                if(rows[0] !== null)
+                {
+                    var trnGrpId = parseInt(rows[0].TransactionGroupId) + 1;
+                    resolve(trnGrpId);
+                }
+                else
+                {
+                    resolve(1);
+                }
+            }
+        }); 
+    });
+}
+
+function insertTransaction(req, connection, amount, userId)
+{
+    var fromCustomerId = req.body.fromUser;
+    var description = req.body.description;
+    var type = req.body.type;
+    var venmoId;
+    var houseId;
+
+    getTransactionGroupId(connection).then(function(data){
+        var trnGrpId = data;
+        var query = "SELECT VenmoId,HouseId FROM ?? WHERE ?? = ?";
+        var params = ["user", "userId", userId];
+        query = mysql.format(query, params);
+
+        connection.query(query, function (err, rows) {
+            if (err) {
+                console.log(JSON.stringify({ "Error": true, "Message": "Error executing MySQL query: " + err }));
+            } else {
+                // send venmo request
+                // update transaction
+                if(rows[0] !== null)
+                {
+                    venmoId = rows[0].VenmoId;
+                    houseId = rows[0].HouseId;
+                }
+
+                var query = "INSERT INTO transaction (HouseId,Date,Amount,RecipientToId,RecipientFromId,TransactionGroupId,ImageUrl,Description,Type) VALUES (?,?,?,?,?,?,?,?,?)";
+                var params = [houseId, new Date(), parseFloat(amount), parseInt(userId), parseInt(fromCustomerId), parseInt(trnGrpId), null,description, type];
+                query = mysql.format(query, params);
+
+                console.log("User " + userId + " " + amount);
+
+                connection.query(query, function (err, rows) {
+                    if (err) {
+                        console.log(JSON.stringify({ "Error": true, "Message": "Error executing MySQL query: " + err }));
+                    } else {
+                        console.log(JSON.stringify({ "Error": false, "Message": "Success", "List": rows }));                          
+                    }
+                });
+
+            }
+        });
+    });
+}
+
 REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     var self = this;
 
@@ -430,6 +496,26 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         res.redirect('/index.html')
     });
 
+
+    router.post('/createTransaction', function (req, res) {
+        var users = req.body.users;
+        var response = "";
+        var userId;
+        var amount;
+
+         for(var key in users)
+         {
+            response = response + users[key].userId + " " + users[key].amount;
+            userId = users[key].userId;
+            amount = users[key].amount;
+
+            insertTransaction(req, connection, amount, userId);            
+         }
+
+        res.json(response);
+    });
+
+
     router.post('/imageAmount', function (req, res) {
         var imageData = req.body.imageData;
         var imageTxt = "";
@@ -499,7 +585,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
                 {
                     res.json({ amount: "-1" });
                 }
-                
+
             } else {
                 console.log('Image recognition service failed: ' + error);
             }
