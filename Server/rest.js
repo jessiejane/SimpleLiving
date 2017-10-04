@@ -17,6 +17,105 @@ function calculateItemQty(sensorReading){
     return Math.round(Number(distance/itemSize));     
 }
 
+function getTransactionGroupId(connection)
+{
+     return new Promise(function(resolve,reject) {
+        connection.query("SELECT MAX(TransactionGroupId) AS TransactionGroupId FROM transaction", function (err, rows) {
+            if (err) {
+                reject();
+            } else {
+                if(rows[0] !== null)
+                {
+                    var trnGrpId = parseInt(rows[0].TransactionGroupId) + 1;
+                    resolve(trnGrpId);
+                }
+                else
+                {
+                    resolve(1);
+                }
+            }
+        }); 
+    });
+}
+
+function insertTransaction(req, connection, amount, userId)
+{
+    var fromCustomerId = req.body.fromUser;
+    var description = req.body.description;
+    var type = req.body.type;
+    var venmoId;
+    var houseId;
+	var masterToken;
+
+    getTransactionGroupId(connection).then(function(data){
+        var trnGrpId = data;
+        var query = "SELECT VenmoId,HouseId,MasterVenmoToken FROM ?? WHERE ?? = ?";
+        var params = ["user", "userId", userId];
+        query = mysql.format(query, params);
+
+        connection.query(query, function (err, rows) {
+            if (err) {
+                console.log(JSON.stringify({ "Error": true, "Message": "Error executing MySQL query: " + err }));
+            } else {
+                
+
+                // update transaction
+                if(rows[0] !== null)
+                {
+                    venmoId = rows[0].VenmoId;
+                    houseId = rows[0].HouseId;
+					masterToken = rows[0].MasterVenmoToken;
+                }
+				
+				// send venmo request
+				console.log("############## " + venmoId + " #################")
+				var jsonBody =  JSON.stringify({ 	
+									"access_token": masterToken,
+									"username": venmoId,
+									"note": description,
+									"amount": "-" + amount,
+									"audience": "private"
+								})
+				var headers = {
+					'Content-Type': 'application/json'
+				}
+				var options = {
+					url: 'https://api.venmo.com/v1/payments',
+					method: 'POST',
+					headers: headers,
+					body: jsonBody
+				}
+				
+				// Start the request
+				request(options, function (error, response, body) {
+					if (!error && response.statusCode == 200) {
+						console.log("succeess");
+					} else {
+						console.log('Venmo service failed: ' + error);
+					}
+				});
+			}
+
+				
+
+                var query = "INSERT INTO transaction (HouseId,Date,Amount,RecipientToId,RecipientFromId,TransactionGroupId,ImageUrl,Description,Type) VALUES (?,?,?,?,?,?,?,?,?)";
+                var params = [houseId, new Date(), parseFloat(amount), parseInt(userId), parseInt(fromCustomerId), parseInt(trnGrpId), null,description, type];
+                query = mysql.format(query, params);
+
+                console.log("User " + userId + " " + amount);
+
+                connection.query(query, function (err, rows) {
+                    if (err) {
+                        console.log(JSON.stringify({ "Error": true, "Message": "Error executing MySQL query: " + err }));
+                    } else {
+                        console.log(JSON.stringify({ "Error": false, "Message": "Success", "List": rows }));                          
+                    }
+                });
+
+            });
+        });
+    }
+
 REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     var self = this;
 
@@ -340,8 +439,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     router.post("/items", function (req, res) {
         var itemCount = calculateItemQty(req.body.SensorReading);
         var query = "INSERT INTO ??(??,??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?,?)";
-        var params = ["Item", "HouseId", "Name", "IsSmartStock", "ListId", "Description", "AmazonProductId", "SensorReading", "Quantity",
-            req.body.HouseId, req.body.Name, req.body.IsSmartStock, req.body.ListId, req.body.Description, req.body.AmazonProductId, 
+        var params = ["Item", "HouseId", "Name", "IsSmartStock", "ListId", "Description", "AmazonProductUrl", "SensorReading", "Quantity",
+            req.body.HouseId, req.body.Name, req.body.IsSmartStock, req.body.ListId, req.body.Description, req.body.AmazonProductUrl, 
             req.body.SensorReading, itemCount];
         query = mysql.format(query, params);
 
@@ -371,7 +470,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         }
         var query = "UPDATE ?? SET ?? = ?, ? = ?, ? = ?, ? = ?, ?? = ?, ? = ?, ? = ?, ? = ? WHERE ?? = ?";
         var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock, 
-            "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductId", req.body.AmazonProductId,
+            "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductUrl", req.body.AmazonProductUrl,
             "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId];
 
         query = mysql.format(query, params);
@@ -451,10 +550,25 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
-    // router.get('/push', function (req, res) {
-    //     push(deviceToken);
-    //     res.redirect('/index.html')
-    // });
+
+    router.post('/createTransaction', function (req, res) {
+        var users = req.body.users;
+        var response = "";
+        var userId;
+        var amount;
+
+         for(var key in users)
+         {
+            response = response + users[key].userId + " " + users[key].amount;
+            userId = users[key].userId;
+            amount = users[key].amount;
+
+            insertTransaction(req, connection, amount, userId);            
+         }
+
+        res.json(response);
+    });
+
 
     router.post('/imageAmount', function (req, res) {
         var imageData = req.body.imageData;
@@ -525,7 +639,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
                 {
                     res.json({ amount: "-1" });
                 }
-                
+
             } else {
                 console.log('Image recognition service failed: ' + error);
             }

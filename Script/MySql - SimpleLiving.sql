@@ -20,6 +20,7 @@ create table User(
     HouseId int default null,
     Name varchar(200),
     VenmoId varchar(100),
+    MasterVenmoToken varchar(100),
     DeviceId varchar(100),
     ImageUrl varchar(500),
     DeviceToken varchar(100),
@@ -40,10 +41,10 @@ use SimpleLiving;
 insert into Config (DeviceToken) values ('ba4ac0018e35d89f2547ac73048c98b5aa5e98e156ca13173241d52fcd4b3c67');
 
 use SimpleLiving;
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (1, 1, 'Jessie Dahlquist', uuid(), uuid()); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (2, 1, 'Kevin Tanner', uuid(), uuid()); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (3, 1, 'Selam Yihun', uuid(), uuid()); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (4, 1, 'John Griffin', uuid(), uuid()); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (1, 1, 'Jessie Dahlquist', 'Jessie-Dahlquist' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (2, 1, 'Kevin Tanner', 'Kevin-Tanner-2' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (3, 1, 'Selam Yihun', 'Selam-Yihun1' , uuid(),'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (4, 1, 'John Griffin', 'jhgriffin' ,uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
 
 
 use SimpleLiving;
@@ -71,11 +72,11 @@ create table Item(
     HouseId int not null,
     Name varchar(200),
     IsSmartStock boolean DEFAULT NULL,
-    Quantity int default null,
+    Quantity int default 0,
     ListId int not null,
     Description varchar(500),
     SensorReading int(255),
-    AmazonProductId varchar(20),
+    AmazonProductUrl varchar(2000),
 	PRIMARY KEY (ItemId),
     
     FOREIGN KEY fk_house(HouseId)
@@ -90,8 +91,8 @@ create table Item(
 );
 
 use SimpleLiving;
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', true, 3, 'Protein', 'B00FFJ2LXU', 0);
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId, Quantity) values (2, 1, 'Bounty Paper Towel', true, 3, 'Protein', 'B0077S7R8G', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=133-8971498-2032938&associate-id=123402bb-20&hmac=uztkD9ycMp52gsM%2FIqAIFA9rscQ%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (2, 1, 'Bounty Paper Towel', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=142-8755991-1155408&associate-id=123402bb-20&hmac=K5u5oy8vE5aMRd5k0mZ5GpTtz2s%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (3, 1, 'Milk', false, 1, 'Milk', 2);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (4, 1, 'Bacon', false, 1, 'Protein', 3);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (5, 1, 'Cake', false, 1, 'Sweet', 5);

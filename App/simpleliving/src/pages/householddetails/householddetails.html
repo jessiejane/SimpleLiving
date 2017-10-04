@@ -25,14 +25,17 @@
 
 <ion-content>
   <div [ngSwitch]="detailSegment">
-    <ion-list *ngSwitchCase="'roommates'">
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/imgPlaceHolder.png">
-        </ion-thumbnail>
-        <h2>test 1</h2>
-      </ion-item>
-    </ion-list>
+    <div *ngSwitchCase="'roommates'" >
+      <ion-list *ngFor="let item of items">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/img/imgPlaceHolder.png">
+          </ion-thumbnail>
+          <h2>{{item.mockNames}}</h2>
+          <p>{{item.mockNumbers}}</p>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
 
   <div [ngSwitch]="detailSegment">
@@ -41,7 +44,10 @@
         <ion-thumbnail item-start>
           <img src="assets/img/imgPlaceHolder.png">
         </ion-thumbnail>
-        <h2>test 2</h2>
+        <h2>Landlord Name</h2>
+        <p>(123)456-7890</p>
+        <p>123 Main St</p>
+        <p>Boston, MA 03110</p>
       </ion-item>
     </ion-list>
   </div>
@@ -50,9 +56,21 @@
     <ion-list *ngSwitchCase="'docs'">
       <ion-item>
         <ion-thumbnail item-start>
-          <img src="assets/img/imgPlaceHolder.png">
+          <img src="assets/img/pdf.png">
         </ion-thumbnail>
-        <h2>test 3</h2>
+        <h2>Lease</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/img/pdf.png">
+        </ion-thumbnail>
+        <h2>Rental Agreement</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/img/pdf.png">
+        </ion-thumbnail>
+        <h2>Emergency Contacts</h2>
       </ion-item>
     </ion-list>
   </div>
