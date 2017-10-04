@@ -437,7 +437,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 	
 	router.get("/transactions/:HouseId", function (req, res) {
-        var query = "SELECT A.Date, A.amount, B.name as fromName, C.name as toName, A.description " +
+        var query = "SELECT DATE_FORMAT(A.Date, '%m/%d/%y') as newDate, A.amount, B.name as fromName, C.name as toName, A.description " +
 					"FROM Transaction as A join User as B on A.recipientFromId = B.UserID join User as C on A.recipientToId = C.UserId  " +
 					"Where A.houseid = 1 order by A.transactionGroupId";
 
