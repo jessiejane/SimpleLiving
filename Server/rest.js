@@ -238,7 +238,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
-    router.get("/list/:ListId/items", function (req, res) {
+    router.get("/lists/:ListId/items", function (req, res) {
         var query = "SELECT * FROM ?? WHERE ?? = ?";
         var params = ["Item", "ListId", req.params.ListId];
         query = mysql.format(query, params);
