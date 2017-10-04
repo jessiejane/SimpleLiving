@@ -63,6 +63,7 @@ create table Item(
     HouseId int not null,
     Name varchar(200),
     IsSmartStock boolean DEFAULT NULL,
+    Quantity int default null,
     ListId int not null,
     Description varchar(500),
     SensorReading int(255),
@@ -81,13 +82,13 @@ create table Item(
 );
 
 use SimpleLiving;
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (1, 1, 'Wash the dishes', false, 2, 'Chorus');
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (2, 1, 'Dust the house', false, 2, 'Chorus');
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (3, 1, 'Milk', false, 1, 'Milk');
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (4, 1, 'Bacon', false, 1, 'Protein');
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (5, 1, 'Cake', false, 1, 'Sweet');
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId) values (6, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', false, 3, 'Protein', 'B00FFJ2LXU');
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId) values (7, 1, 'Dial All Day Freshness Spring Water Bar Soap, 4 ounces 22 Bar', false, 3, 'Protein', 'B0077S7R8G');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', true, 3, 'Protein', 'B00FFJ2LXU', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId, Quantity) values (2, 1, 'Bounty Paper Towel', true, 3, 'Protein', 'B0077S7R8G', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (3, 1, 'Milk', false, 1, 'Milk', 2);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (4, 1, 'Bacon', false, 1, 'Protein', 3);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (5, 1, 'Cake', false, 1, 'Sweet', 5);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (6, 1, 'Wash the dishes', false, 2, 'Chores');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (7, 1, 'Dust the house', false, 2, 'Chores');
 
 use SimpleLiving;
 create table Transaction(
