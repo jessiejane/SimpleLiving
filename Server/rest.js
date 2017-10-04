@@ -2,16 +2,17 @@
 var mysql = require("mysql");
 var request = require('request');
 var push = require("./push.js");
+var itemThreshold = 2;
 
 function REST_ROUTER(router, connection, md5) {
     var self = this;
     self.handleRoutes(router, connection, md5);
 }
 
+
 function calculateItemQty(sensorReading){
     var itemSize = 5;
     var emptySize = 50;
-    var itemThreshold = 2;
     var distance = emptySize - sensorReading;
     return Math.round(Number(distance/itemSize));     
 }
