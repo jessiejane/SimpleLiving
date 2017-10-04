@@ -9,7 +9,7 @@ export class RestService {
 
     private requestUrl: string;
     constructor(public http: Http, public configService: ConfigService) {
-        this.requestUrl = this.configService.getEnvUrl();
+        this.requestUrl = this.configService.getRestEndPointUrl();
     }
 
     populateInventory(): Promise<any> {
