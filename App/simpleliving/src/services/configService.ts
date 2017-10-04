@@ -2,6 +2,6 @@
 
 export class ConfigService {
     getEnvUrl():string {
-        return "http://localhost:3000/api/"
+        return "https://97de7914.ngrok.io/api/"
     }
 }
