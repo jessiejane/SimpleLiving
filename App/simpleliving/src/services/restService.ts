@@ -112,4 +112,13 @@ export class RestService {
           return Observable.throw(error.json());
         }).toPromise()
     }
+	
+	public getAllTransactionsByHouseId(houseId: number): Promise<any> {
+        return this.http.get(this.requestUrl+"transactions/"+houseId)
+        .map(response => {
+               return response.json() || { success: false, message: "No response from server" };
+           }).catch((error: Response | any) => {
+               return Observable.throw(error.json());
+           }).toPromise();
+   }
 }
