@@ -449,8 +449,6 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             ]
         })
 
-        console.log(imageData);
-
         // Configure the request
         var headers = {
             'Content-Type': 'application/json'
