@@ -373,7 +373,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.post('/imageAmount', function (req, res) {
-        var imageUri = req.body.imageUri;
+        var imageUri = req.body.imageData;
         var imageTxt = "";
 
         var jsonBody = JSON.stringify({
@@ -381,7 +381,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
                 {
                     "image": {
                         "source": {
-                            "imageUri": imageUri
+                            "content": imageData
                         }
                     },
                     "features": [
@@ -425,7 +425,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
 
                 res.json({ amount: t[0] });
             } else {
-                console.log('Image recognitin service failed' + error);
+                console.log('Image recognition service failed: ' + error);
             }
         })
 
