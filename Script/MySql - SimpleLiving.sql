@@ -39,7 +39,7 @@ insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (4, 1, 'John 
 
 use SimpleLiving;
 create table List(
-	ListID int not null auto_increment,
+	ListId int not null auto_increment,
     HouseId int not null,
     Name varchar(200),
 	PRIMARY KEY (ListID),

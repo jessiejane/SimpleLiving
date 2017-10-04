@@ -2,7 +2,7 @@
   "name": "simpleliving",
   "version": "1.0.0",
   "description": "alexa, code my hack",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,8 @@
   "dependencies": {
     "apn": "^2.1.5",
     "body-parser": "^1.18.2",
-    "express": "^4.16.1"
+    "express": "^4.16.1",
+    "md5": "^2.2.1",
+    "mysql": "^2.14.1"
   }
 }
