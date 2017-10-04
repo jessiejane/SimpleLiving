@@ -13,6 +13,9 @@ CREATE TABLE House(
 
 use SimpleLiving;
 insert into House (HouseId, Name, Address, BulletinInfo) values (1, 'Alexa', '157 Berkeley St, Boston, MA 02116', 'N/A');
+insert into House (HouseId, Name, Address, BulletinInfo) values (2, 'Snow white', '911 Dark Forest, Boston, MA 02116', 'N/A');
+insert into House (HouseId, Name, Address, BulletinInfo) values (3, 'Packers', '1265 Lombardi Ave, Green Bay, WI 54304', 'N/A');
+
    
 use SimpleLiving;
 create table User(
@@ -45,7 +48,10 @@ insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, Im
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (2, 1, 'Kevin Tanner', 'Kevin-Tanner-2' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/monicaIcon1.jpg"); 
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (3, 1, 'Selam Yihun', 'Selam-Yihun1' , uuid(),'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/phoebeIcon1.jpg"); 
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (4, 1, 'John Griffin', 'jhgriffin' ,uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/rossIcon1.jpg"); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (7, 1, 'Starbucks', 'starbucks123' , uuid(),'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/phoebeIcon1.jpg"); 
 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (5, 2, 'Joe Young', 'Kevin-Tanner-2' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/monicaIcon1.jpg"); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (6, 2, 'Boston Lue', 'Selam-Yihun1' , uuid(),'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://www.shareicon.net/data/128x128/2015/09/20/104335_avatar_512x512.png"); 
 
 use SimpleLiving;
 create table List(
@@ -62,9 +68,11 @@ create table List(
 
 use SimpleLiving;
 insert into List (ListId, HouseId, Name) values (1, 1, 'Shopping List');
-insert into List (ListId, HouseId, Name) values (2, 1, 'Chorus List');
+insert into List (ListId, HouseId, Name) values (2, 1, 'Chores  List');
 insert into List (ListId, HouseId, Name) values (3, 1, 'Smart Stock List');
 insert into List (ListId, HouseId, Name) values (4, 1, 'To Do List');
+insert into List (ListId, HouseId, Name) values (5, 1, 'Utility Bills');
+insert into List (ListId, HouseId, Name) values (6, 1, 'Events');
 
 use SimpleLiving;
 create table Item(
@@ -93,11 +101,18 @@ create table Item(
 use SimpleLiving;
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=133-8971498-2032938&associate-id=123402bb-20&hmac=uztkD9ycMp52gsM%2FIqAIFA9rscQ%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 1);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (2, 1, 'Bounty Paper Towel', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=142-8755991-1155408&associate-id=123402bb-20&hmac=K5u5oy8vE5aMRd5k0mZ5GpTtz2s%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (12, 1, 'Printing Paper', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=142-8755991-1155408&associate-id=123402bb-20&hmac=K5u5oy8vE5aMRd5k0mZ5GpTtz2s%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (13, 1, 'dish soap', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=142-8755991-1155408&associate-id=123402bb-20&hmac=K5u5oy8vE5aMRd5k0mZ5GpTtz2s%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
+
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (3, 1, 'Milk', false, 1, 'Milk', 2);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (4, 1, 'Bacon', false, 1, 'Protein', 3);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (5, 1, 'Cake', false, 1, 'Sweet', 5);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (6, 1, 'Wash the dishes', false, 2, 'Chores');
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (7, 1, 'Dust the house', false, 2, 'Chores');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (8, 1, 'Take the trash out', false, 2, 'Chores');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (9, 1, 'Clean the bathroom', false, 2, 'Chores');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (10, 1, 'Clean the bathroom', false, 2, 'Chores');
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) values (11, 1, 'Clean the bathroom', false, 2, 'Chores');
 
 use SimpleLiving;
 create table Transaction(

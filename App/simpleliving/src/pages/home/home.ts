@@ -38,7 +38,7 @@ export class HomePage {
 presentAlert() {
   const alert = this.alertCtrl.create({
     title: 'Smart Stock Update',
-    subTitle: 'You now have 0 Toilet Paper rolls left',
+    subTitle: 'You are running low on an item',
     buttons: [{text:'Update My List',
     handler: () => {
       console.log("placeholder")
