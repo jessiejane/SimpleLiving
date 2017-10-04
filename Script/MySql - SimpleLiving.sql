@@ -16,7 +16,7 @@ insert into House (HouseId, Name, Address, BulletinInfo) values (1, 'Alexa', '15
    
 use SimpleLiving;
 create table User(
-	UserId int not null auto_increment,
+    UserId int not null auto_increment,
     HouseId int default null,
     Name varchar(200),
     VenmoId varchar(100),
@@ -27,9 +27,9 @@ create table User(
     PRIMARY KEY (UserId),
     
     FOREIGN KEY fk_house(HouseId)
-	REFERENCES House(HouseId)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT
+    REFERENCES House(HouseId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
 );
 
 use SimpleLiving;
@@ -41,23 +41,23 @@ use SimpleLiving;
 insert into Config (DeviceToken) values ('ba4ac0018e35d89f2547ac73048c98b5aa5e98e156ca13173241d52fcd4b3c67');
 
 use SimpleLiving;
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (1, 1, 'Jessie Dahlquist', 'Jessie-Dahlquist' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (2, 1, 'Kevin Tanner', 'Kevin-Tanner-2' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (3, 1, 'Selam Yihun', 'Selam-Yihun1' , uuid(),'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
-insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken) values (4, 1, 'John Griffin', 'jhgriffin' ,uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93'); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (1, 1, 'Jessie Dahlquist', 'Jessie-Dahlquist' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://github.com/jessiejane/SimpleLiving/blob/master/App/simpleliving/src/assets/img/joeyIcon1.jpg?raw=true"); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (2, 1, 'Kevin Tanner', 'Kevin-Tanner-2' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/monicaIcon1.jpg"); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (3, 1, 'Selam Yihun', 'Selam-Yihun1' , uuid(),'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/phoebeIcon1.jpg"); 
+insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (4, 1, 'John Griffin', 'jhgriffin' ,uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://raw.githubusercontent.com/jessiejane/SimpleLiving/master/App/simpleliving/src/assets/img/rossIcon1.jpg"); 
 
 
 use SimpleLiving;
 create table List(
-	ListId int not null auto_increment,
+    ListId int not null auto_increment,
     HouseId int not null,
     Name varchar(200),
-	PRIMARY KEY (ListID),
+    PRIMARY KEY (ListID),
     
     FOREIGN KEY fk_house(HouseId)
-	REFERENCES House(HouseId)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT
+    REFERENCES House(HouseId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
 );
 
 use SimpleLiving;
@@ -68,7 +68,7 @@ insert into List (ListId, HouseId, Name) values (4, 1, 'To Do List');
 
 use SimpleLiving;
 create table Item(
-	ItemId int not null auto_increment,
+    ItemId int not null auto_increment,
     HouseId int not null,
     Name varchar(200),
     IsSmartStock boolean DEFAULT NULL,
@@ -77,17 +77,17 @@ create table Item(
     Description varchar(500),
     SensorReading int(255),
     AmazonProductUrl varchar(2000),
-	PRIMARY KEY (ItemId),
+    PRIMARY KEY (ItemId),
     
     FOREIGN KEY fk_house(HouseId)
-	REFERENCES House(HouseId)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT,
+    REFERENCES House(HouseId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
     
-	FOREIGN KEY fk_list(ListId)
-	REFERENCES List(ListId)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT    
+    FOREIGN KEY fk_list(ListId)
+    REFERENCES List(ListId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT    
 );
 
 use SimpleLiving;
@@ -101,7 +101,7 @@ insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description) value
 
 use SimpleLiving;
 create table Transaction(
-	TransactionId int not null auto_increment,
+    TransactionId int not null auto_increment,
     HouseId int not null,
     Date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     Amount numeric(19,4),
@@ -113,20 +113,20 @@ create table Transaction(
     Type varchar(500),
     PRIMARY KEY (TransactionId),
     
-	FOREIGN KEY fk_house(HouseId)
-	REFERENCES House(HouseId)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT,
+    FOREIGN KEY fk_house(HouseId)
+    REFERENCES House(HouseId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
     
-	FOREIGN KEY fk_user_to(RecipientToId)
-	REFERENCES User(UserId)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT,
+    FOREIGN KEY fk_user_to(RecipientToId)
+    REFERENCES User(UserId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
     
-	FOREIGN KEY fk_user_from(RecipientFromId)
-	REFERENCES User(UserId)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT    
+    FOREIGN KEY fk_user_from(RecipientFromId)
+    REFERENCES User(UserId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT    
 );
 
 use SimpleLiving;
