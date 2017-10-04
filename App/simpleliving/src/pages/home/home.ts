@@ -18,8 +18,11 @@ export class HomePage {
   items: Array<{eventSummary: string, eventTime: string, icons: string, imageThumbnail:string}>;
 
   constructor(public navCtrl: NavController, public push: Push, public http: Http) {
-
-  	this.registerForPush();
+    var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+    if ( app ) {
+        //we are running on a device
+        this.registerForPush();
+    } 
 
     //setting up sample newsfeed just for a mockup
     this.eventSummary = ["Here's an example of a transaction", "Person 1 did something",
