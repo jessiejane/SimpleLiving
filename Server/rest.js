@@ -404,8 +404,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     router.post("/items", function (req, res) {
         var itemCount = calculateItemQty(req.body.SensorReading);
         var query = "INSERT INTO ??(??,??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?,?)";
-        var params = ["Item", "HouseId", "Name", "IsSmartStock", "ListId", "Description", "AmazonProductId", "SensorReading", "Quantity",
-            req.body.HouseId, req.body.Name, req.body.IsSmartStock, req.body.ListId, req.body.Description, req.body.AmazonProductId, 
+        var params = ["Item", "HouseId", "Name", "IsSmartStock", "ListId", "Description", "AmazonProductUrl", "SensorReading", "Quantity",
+            req.body.HouseId, req.body.Name, req.body.IsSmartStock, req.body.ListId, req.body.Description, req.body.AmazonProductUrl, 
             req.body.SensorReading, itemCount];
         query = mysql.format(query, params);
 
@@ -429,7 +429,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
 
         var query = "UPDATE ?? SET ?? = ?, ? = ?, ? = ?, ? = ?, ?? = ?, ? = ?, ? = ?, ? = ? WHERE ?? = ?";
         var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock, 
-            "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductId", req.body.AmazonProductId,
+            "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductUrl", req.body.AmazonProductUrl,
             "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId];
 
         query = mysql.format(query, params);

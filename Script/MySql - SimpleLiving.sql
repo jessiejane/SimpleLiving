@@ -73,11 +73,11 @@ create table Item(
     HouseId int not null,
     Name varchar(200),
     IsSmartStock boolean DEFAULT NULL,
-    Quantity int default null,
+    Quantity int default 0,
     ListId int not null,
     Description varchar(500),
     SensorReading int(255),
-    AmazonProductId varchar(20),
+    AmazonProductUrl varchar(2000),
 	PRIMARY KEY (ItemId),
     
     FOREIGN KEY fk_house(HouseId)
@@ -92,8 +92,8 @@ create table Item(
 );
 
 use SimpleLiving;
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', true, 3, 'Protein', 'B00FFJ2LXU', 0);
-insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductId, Quantity) values (2, 1, 'Bounty Paper Towel', true, 3, 'Protein', 'B0077S7R8G', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (1, 1, 'Angel Soft 2 Ply Toilet Paper, 48 Double Bath Tissue', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=133-8971498-2032938&associate-id=123402bb-20&hmac=uztkD9ycMp52gsM%2FIqAIFA9rscQ%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
+insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, AmazonProductUrl, Quantity) values (2, 1, 'Bounty Paper Towel', true, 3, 'Protein', 'https://www.amazon.com/gp/cart/aws-merge.html?cart-id=142-8755991-1155408&associate-id=123402bb-20&hmac=K5u5oy8vE5aMRd5k0mZ5GpTtz2s%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False', 0);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (3, 1, 'Milk', false, 1, 'Milk', 2);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (4, 1, 'Bacon', false, 1, 'Protein', 3);
 insert into Item(ItemId, HouseId, Name, IsSmartStock, ListId, Description, Quantity) values (5, 1, 'Cake', false, 1, 'Sweet', 5);
