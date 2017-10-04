@@ -176,7 +176,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     var deviceToken = "4abe2ec0d7faeb4521630176365544760dcd073dec8c254bff2078d1b5d91ee9";
-    app.post('/token', function (req, res) {
+    router.post('/token', function (req, res) {
         deviceToken = req.body.token;
         console.log("received device token: " + req.body.token);
         var response = "Loud and Clear";

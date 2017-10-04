@@ -22,6 +22,7 @@ create table User(
     VenmoId varchar(100),
     DeviceId varchar(100),
     ImageUrl varchar(500),
+    DeviceToken varchar(100),
     PRIMARY KEY (UserId),
     
     FOREIGN KEY fk_house(HouseId)
