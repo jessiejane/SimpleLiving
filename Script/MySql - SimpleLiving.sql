@@ -33,11 +33,13 @@ create table User(
 
 use SimpleLiving;
 create table Config(
-    DeviceToken varchar(100)
+    DeviceToken varchar(100),
+    MasterVenmoToken varchar(100)
 );
 
 use SimpleLiving;
 insert into Config (DeviceToken) values ('ba4ac0018e35d89f2547ac73048c98b5aa5e98e156ca13173241d52fcd4b3c67');
+insert into Config (MasterVenmoToken) values('0d6b5717aee2164764398bdecc67b6bf34598e154cc4d6a566236ed6d0ddcec3');
 
 use SimpleLiving;
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId) values (1, 1, 'Jessie Dahlquist', 'Jessie-Dahlquist' , uuid()); 
