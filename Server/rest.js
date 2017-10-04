@@ -301,7 +301,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         var itemThreshold = 2;
 
         var distance = emptySize - sensorReading;
-        var itemCount = distance / itemSize;
+        var itemCount = Math.round(Number(distance/itemSize)); 
+
 
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
@@ -311,7 +312,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         }
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
-        var params = ["Item", "Quantity", itemCount, "ItemId", req.body.ItemId];
+        var params = ["Item", "Quantity", itemCount, "ItemId", itemId];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
