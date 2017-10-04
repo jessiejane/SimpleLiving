@@ -5,6 +5,21 @@ var md5 = require('MD5');
 var rest = require("./rest.js");
 var app  = express();
 
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header(
+    'Access-Control-Allow-Headers', 
+    'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+  );
+  if ('OPTIONS' === req.method) {
+    res.status(200).end();
+  } else {
+    next();
+  }
+});
+
 function REST(){
     var self = this;
     self.connectMysql();
@@ -15,8 +30,8 @@ REST.prototype.connectMysql = function() {
     var pool      =    mysql.createPool({
         connectionLimit : 100,
         host     : 'localhost',
-        user     : 'user',
-        password : 'user',
+        user     : 'root',
+        password : 'cats',
         database : 'SimpleLiving',
         debug    :  true
     });
