@@ -9,16 +9,25 @@
 
 <ion-content>
   <ion-list>
+    <ion-grid no-padding>
     <button ion-item *ngFor="let list of lists" (click)="showItems(list.ListId)">
-      <div *ngIf="listitems != undefined && listitems[0].ListId == list.ListId">
-      <div ion-item *ngFor="let item of listitems" >{{item.Name}}</div>
-    </div>
+      {{list.Name}}
+      <div *ngIf="listitems != undefined && listitems.length != 0 && listitems[0].ListId == list.ListId">
+        <div ion-item *ngFor="let item of listitems" >{{item.Name}}
+           <button class="enable-pointer-events" style="z-index: 1000;" ion-item (click)="addItem(item)">Click</button>
+          <ion-icon class="enable-pointer-events" style="z-index: 1000;" tappable (click)="addItem(item);" name="add" item-end></ion-icon>
+          <ion-icon name="remove" item-end></ion-icon>
+          <ion-badge item-end>{{item.Quantity}}</ion-badge>
+        </div>
+
+      </div>
      <!--  <ion-icon [name]="item.icon" item-start></ion-icon>
       {{item.title}}
       <div class="item-note" item-end>
         <ion-badge item-end>{{item.note}}</ion-badge>
       </div> -->
-      {{list.Name}}
+      
     </button>
+  </ion-grid>
   </ion-list>
 </ion-content>

@@ -321,6 +321,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
+
+
     router.get("/items/:ItemId", function (req, res) {
         var query = "SELECT * FROM ?? WHERE ?? = ?";
         var params = ["Item", "ItemId", req.params.ItemId];
@@ -353,14 +355,20 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.patch("/items/:ItemId", function (req, res) {
-        var itemCount = calculateItemQty(req.body.SensorReading)
+        console.log("posting to item")
+        if (req.body.item == undefined) {
+            var itemCount = calculateItemQty(req.body.SensorReading)
 
-        if (itemCount <= itemThreshold) {
-            console.log('Item too low');
-            res.json({ "Error": true, "Message": "Item too low" });
-            // add notification code here    
+            if (itemCount <= itemThreshold) {
+                console.log('Item too low');
+                res.json({ "Error": true, "Message": "Item too low" });
+                // add notification code here    
+            }
         }
-
+        else {
+            req.body = item;
+            itemCount = item.Quantity;
+        }
         var query = "UPDATE ?? SET ?? = ?, ? = ?, ? = ?, ? = ?, ?? = ?, ? = ?, ? = ?, ? = ? WHERE ?? = ?";
         var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock, 
             "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductId", req.body.AmazonProductId,
