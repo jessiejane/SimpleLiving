@@ -7,6 +7,7 @@ import {
 import { Http, Headers } from '@angular/http';
 import { ConfigService } from '../../services/configService'
 import { AlertController } from 'ionic-angular';
+import { RestService } from '../../services/restService'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -47,7 +48,10 @@ presentAlert() {
   const alert = this.alertCtrl.create({
     title: 'Smart Stock Update',
     subTitle: 'You now have 0 Toilet Paper rolls left',
-    buttons: ['Update My List',
+    buttons: [{text:'Update My List',
+    handler: () => {
+
+    }},
     {text:'Restock on Amazon',
     handler: () => {
       window.open("https://www.amazon.com/gp/cart/aws-merge.html?cart-id=133-8971498-2032938&associate-id=123402bb-20&hmac=uztkD9ycMp52gsM%2FIqAIFA9rscQ%3D&SubscriptionId=AKIAJONRAXIF4HTX73DQ&MergeCart=False",'_system', 'location=yes');

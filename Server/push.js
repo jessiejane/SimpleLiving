@@ -22,13 +22,6 @@ module.exports = function sendPush(token, smartStock) {
     if (smartStock == true) 
       note.payload = {'messageFrom': 'smartStock'};
     note.topic = "io.ionic.simpleliving";
-    note.buttons= [
-      {
-          text: 'Nope',
-          handler: data => {
-            console.log('Nope clicked');
-          }
-      }]
     apnProvider.send(note, token).then( (result) => {
       console.log(JSON.stringify(result));
     });

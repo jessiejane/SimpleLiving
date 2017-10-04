@@ -16,7 +16,7 @@ export class RestService {
     public populateInventory(): Promise<any> {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
-        return this.http.get(this.requestUrl + "items")
+        return this.http.get(this.requestUrl + "lists/3/items")
             .map(response => {
                 return response.json() || { success: false, message: "No response from server" };
             }).catch((error: Response | any) => {

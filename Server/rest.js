@@ -505,7 +505,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
-            push(deviceToken);
+            push(deviceToken, true);
             //push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29");
             // add notification code here
         }
