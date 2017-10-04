@@ -208,8 +208,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.get("/house/:HouseId/users", function (req, res) {
-        var query = "SELECT * FROM ?? WHERE ?? = ?";
-        var params = ["User", "HouseId", req.params.HouseId];
+        var query = "SELECT u.Name, u.DeviceId, h.Address, u.ImageUrl, u.VenmoId, h.Name as HouseName FROM ?? as u LEFT JOIN ?? as h on ?? = u.UserId  WHERE ?? = ?";
+        var params = ["User", "House", "h.HouseId",  "u.HouseId", req.params.HouseId];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
