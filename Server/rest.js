@@ -521,6 +521,7 @@ console.log(query);
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
             push(deviceToken, true);
+            push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29",true);
             //push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29");
             // add notification code here
         }
