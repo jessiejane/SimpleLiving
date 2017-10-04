@@ -30,8 +30,8 @@ REST.prototype.connectMysql = function() {
     var pool      =    mysql.createPool({
         connectionLimit : 100,
         host     : 'localhost',
-        user     : 'root',
-        password : 'cats',
+        user     : 'usr',
+        password : 'usr',
         database : 'SimpleLiving',
         debug    :  true
     });

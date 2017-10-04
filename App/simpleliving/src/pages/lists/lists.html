@@ -9,12 +9,13 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="pushPage()">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
+    <button ion-item *ngFor="let list of lists" (click)="showItems(list.ListId)">
+     <!--  <ion-icon [name]="item.icon" item-start></ion-icon>
       {{item.title}}
       <div class="item-note" item-end>
         <ion-badge item-end>{{item.note}}</ion-badge>
-      </div>
+      </div> -->
+      {{list.Name}}
     </button>
   </ion-list>
 </ion-content>

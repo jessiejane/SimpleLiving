@@ -2,7 +2,9 @@
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ConfigService } from './configService';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class RestService {
 
     private requestUrl: string;
@@ -33,5 +35,14 @@ export class RestService {
         }).catch((error: Response | any) => {
           return Observable.throw(error.json());
         }).toPromise()
+    }
+
+    getLists(): Promise<any> {
+        return this.http.get(this.requestUrl+"lists")
+         .map(response => {
+                return response.json() || { success: false, message: "No response from server" };
+            }).catch((error: Response | any) => {
+                return Observable.throw(error.json());
+            }).toPromise();
     }
 }
