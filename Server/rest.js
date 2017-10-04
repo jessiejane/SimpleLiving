@@ -373,7 +373,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.post('/imageAmount', function (req, res) {
-        var imageUri = req.body.imageData;
+        var imageData = req.body.imageData;
         var imageTxt = "";
 
         var jsonBody = JSON.stringify({
