@@ -46,8 +46,8 @@ REST.prototype.connectMysql = function() {
 
 REST.prototype.configureExpress = function(connection) {
       var self = this;
-      app.use(bodyParser.urlencoded({ extended: true }));
-      app.use(bodyParser.json());
+      app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+      app.use(bodyParser.json({limit: '50mb'}));
       var router = express.Router();
       app.use('/api', router);
       var rest_router = new rest(router,connection,md5);
