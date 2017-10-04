@@ -8,11 +8,12 @@ import { Injectable } from '@angular/core';
 export class RestService {
 
     private requestUrl: string;
+
     constructor(public http: Http, public configService: ConfigService) {
         this.requestUrl = this.configService.getRestEndPointUrl();
     }
 
-    populateInventory(): Promise<any> {
+    public populateInventory(): Promise<any> {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
         return this.http.get(this.requestUrl + "items")
@@ -22,7 +23,8 @@ export class RestService {
                 return Observable.throw(error.json());
             }).toPromise();
     }
-    uploadImage(imageStr: string): Promise<any> {
+
+    public uploadImage(imageStr: string): Promise<any> {
         let headers = new Headers();
          headers.append("Content-Type","application/json");
          let body = {
@@ -70,7 +72,7 @@ export class RestService {
         }).toPromise()
     }
 
-    getLists(): Promise<any> {
+    public getLists(): Promise<any> {
         return this.http.get(this.requestUrl+"lists")
          .map(response => {
                 return response.json() || { success: false, message: "No response from server" };
@@ -79,7 +81,7 @@ export class RestService {
             }).toPromise();
     }
 
-    getListItems(listid: number): Promise<any> {
+    public getListItems(listid: number): Promise<any> {
          return this.http.get(this.requestUrl+"lists/"+listid+"/items")
          .map(response => {
                 return response.json() || { success: false, message: "No response from server" };
@@ -87,6 +89,15 @@ export class RestService {
                 return Observable.throw(error.json());
             }).toPromise();
     }
+
+    public getAllUsersByHouseId(houseId: number): Promise<any> {
+        return this.http.get(this.requestUrl+"house/"+houseId+"/users")
+        .map(response => {
+               return response.json() || { success: false, message: "No response from server" };
+           }).catch((error: Response | any) => {
+               return Observable.throw(error.json());
+           }).toPromise();
+   }
     updateListItemQuantity(item: any): Promise<any> {
         let headers = new Headers();
          headers.append("Content-Type","application/json");

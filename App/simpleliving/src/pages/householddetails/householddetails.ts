@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+import { RestService } from '../../services/restService';
 
 /*
 import {
@@ -18,27 +19,15 @@ import { Http, Headers } from '@angular/http';
 export class HouseholdDetailsPage {
   detailSegment: string = "roommates";
   isAndroid: boolean = false;
-  mockNames: string[];
-  mockNumbers: string[];
-  imageThumbnail: string[];
-  items: Array<{mockNames: string, mockNumbers: string, imageThumbnail:string}>;
+  listitems: Array<any>;
 
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, public restService: RestService) {
     this.isAndroid = platform.is('android');
 
-    this.mockNames = ["FirstName LastName", "FirstName LastName2",
-    "FirstName LastName3"]
-    this.mockNumbers = ["123456789","221465798","098765432"]
-    this.imageThumbnail = ["assets/img/imgPlaceHolder.png"]
-
-    this.items = []
-    for (let i = 0; i < this.mockNames.length; i++) {
-      this.items.push({
-        mockNames: this.mockNames[i],
-        mockNumbers: this.mockNumbers[i],
-        imageThumbnail: this.imageThumbnail[0],
-      })
-    }
+    this.restService.getAllUsersByHouseId(1).then(data => {
+      this.listitems = data.User;
+    });  
+   
   }
 }
