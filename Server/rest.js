@@ -8,6 +8,14 @@ function REST_ROUTER(router, connection, md5) {
     self.handleRoutes(router, connection, md5);
 }
 
+function calculateItemQty(sensorReading){
+    var itemSize = 5;
+    var emptySize = 50;
+    var itemThreshold = 2;
+    var distance = emptySize - sensorReading;
+    return Math.round(Number(distance/itemSize));     
+}
+
 REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     var self = this;
 
@@ -33,20 +41,6 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     router.get("/user/:UserId", function (req, res) {
         var query = "SELECT * FROM ?? WHERE ?? = ?";
         var params = ["User", "UserId", req.params.UserId];
-        query = mysql.format(query, params);
-
-        connection.query(query, function (err, rows) {
-            if (err) {
-                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
-            } else {
-                res.json({ "Error": false, "Message": "Success", "User": rows });
-            }
-        });
-    });
-
-    router.get("/user/house/:HouseId", function (req, res) {
-        var query = "SELECT * FROM ?? WHERE ?? = ?";
-        var params = ["User", "HouseId", req.params.HouseId];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -89,7 +83,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
-    router.delete("/user/:UserId/", function (req, res) {
+    router.delete("/user/:UserId", function (req, res) {
         var query = "DELETE from ?? WHERE ??=?";
         var table = ["User", "UserId", req.params.UserId];
         query = mysql.format(query, table);
@@ -132,9 +126,37 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
+    router.get("/house/:HouseId/lists", function (req, res) {
+        var query = "SELECT * FROM ?? WHERE ?? = ?";
+        var params = ["List", "HouseId", req.params.HouseId];
+        query = mysql.format(query, params);
+
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "Success", "List": rows });
+            }
+        });
+    });
+
+    router.get("/house/:HouseId/users", function (req, res) {
+        var query = "SELECT * FROM ?? WHERE ?? = ?";
+        var params = ["User", "HouseId", req.params.HouseId];
+        query = mysql.format(query, params);
+
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "Success", "User": rows });
+            }
+        });
+    });
+
     router.post("/house", function (req, res) {
-        var query = "INSERT INTO ??(??,??,??,??) VALUES (?,?,?,?)";
-        var params = ["House", "HouseId", "Name", "Address", "BulletinInfo", req.body.HouseId, req.body.Name, req.body.Address, req.body.BulletinInfo];
+        var query = "INSERT INTO ??(??,??,??) VALUES (?,?,?)";
+        var params = ["House", "Name", "Address", "BulletinInfo", req.body.Name, req.body.Address, req.body.BulletinInfo];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -146,20 +168,20 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
-    router.put("/house/:HouseId/", function (req, res) {
-        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
+    router.patch("/house/:HouseId", function (req, res) {
+        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?  WHERE ?? = ?";
         var table = ["House", "Name", req.body.Name, "Address", req.body.Address, "BulletinInfo", req.body.BulletinInfo, "HouseId", req.params.HouseId];
         query = mysql.format(query, table);
         connection.query(query, function (err, rows) {
             if (err) {
                 res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
             } else {
-                res.json({ "Error": false, "Message": "House with id " + req.params.HouseId + " was updated" + req.params.UserId });
+                res.json({ "Error": false, "Message": "House with id " + req.params.HouseId + " was updated", "House": rows});
             }
         });
     });
 
-    router.delete("/house/:HouseId/", function (req, res) {
+    router.delete("/house/:HouseId", function (req, res) {
         var query = "DELETE from ?? WHERE ??=?";
         var table = ["House", "HouseId", req.params.HouseId];
         query = mysql.format(query, table);
@@ -167,12 +189,26 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             if (err) {
                 res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
             } else {
-                res.json({ "Error": false, "Message": "Deleted the user with id " + req.params.UserId });
+                res.json({ "Error": false, "Message": "Deleted the house with id " + req.params.HouseId });
+            }
+        });
+    });
+
+    router.delete("/house/:HouseId/users", function (req, res) {
+        var query = "DELETE from ?? WHERE ??=?";
+        var table = ["User", "HouseId", req.params.HouseId];
+        query = mysql.format(query, table);
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "Deleted all users with HouseId " + req.params.HouseId });
             }
         });
     });
     //#endregion House Crud Operation
 
+    //#region List Crud Operation
     router.get("/lists", function (req, res) {
         var query = "SELECT * FROM ??";
         var params = ["List"];
@@ -201,16 +237,16 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
-    router.get("/lists/house/:HouseId", function (req, res) {
+    router.get("/list/:ListId/items", function (req, res) {
         var query = "SELECT * FROM ?? WHERE ?? = ?";
-        var params = ["List", "HouseId", req.params.HouseId];
+        var params = ["Item", "ListId", req.params.ListId];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
             if (err) {
                 res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
             } else {
-                res.json({ "Error": false, "Message": "Success", "List": rows });
+                res.json({ "Error": false, "Message": "Success", "Item": rows });
             }
         });
     });
@@ -229,6 +265,19 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
+    router.patch("/lists/:ListId", function (req, res) {
+        var query = "UPDATE ?? SET ?? = ?, ?? = ? WHERE ?? = ?";
+        var table = ["List", "Name", req.body.Name, "HouseId", req.body.HouseId, "ListId", req.param.ListId];
+        query = mysql.format(query, table);
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "List with id " + req.params.ListId + " was updated", "List": rows});
+            }
+        });
+    });
+
     router.delete("/lists/:ListId/", function (req, res) {
         var query = "DELETE from ?? WHERE ??=?";
         var table = ["List", "ListId", req.params.ListId];
@@ -242,6 +291,21 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
+    router.delete("/lists/:ListId/items/", function (req, res) {
+        var query = "DELETE from ?? WHERE ??=?";
+        var table = ["Item", "ListId", req.params.ListId];
+        query = mysql.format(query, table);
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "Deleted the list with id " + req.params.ListId });
+            }
+        });
+    });
+    //#endregion List Crud Operation
+
+    //#region Item Crud Operation
     router.get("/items", function (req, res) {
         var query = "SELECT * FROM ??";
         var params = ["Item"];
@@ -271,9 +335,11 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.post("/items", function (req, res) {
-        var query = "INSERT INTO ??(??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?)";
-        var params = ["Item", "HouseId", "Name", "IsSmartStock", "ListId", "Description", "AmazonProductId", "SensorReading",
-            req.body.HouseId, req.body.Name, req.body.IsSmartStock, req.body.ListId, req.body.Description, req.body.AmazonProductId, req.body.SensorReading];
+        var itemCount = calculateItemQty(req.body.SensorReading);
+        var query = "INSERT INTO ??(??,??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?,?)";
+        var params = ["Item", "HouseId", "Name", "IsSmartStock", "ListId", "Description", "AmazonProductId", "SensorReading", "Quantity",
+            req.body.HouseId, req.body.Name, req.body.IsSmartStock, req.body.ListId, req.body.Description, req.body.AmazonProductId, 
+            req.body.SensorReading, itemCount];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -285,15 +351,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
-    router.patch("/items/sensorreading/:SensorReading/", function (req, res) {
-
-        var sensorReading = req.body.SensorReading;
-        var itemSize = 5;
-        var emptySize = 50;
-        var itemThreshold = 2;
-
-        var distance = emptySize - sensorReading;
-        var itemCount = distance / itemSize;
+    router.patch("/items/:ItemId", function (req, res) {
+        var itemCount = calculateItemQty(req.body.SensorReading)
 
         if (itemCount <= itemThreshold) {
             console.log('Item too low');
@@ -301,8 +360,11 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             // add notification code here    
         }
 
-        var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
-        var params = ["Item", "SensorReading", req.body.SensorReading, "ItemId", req.params.ItemId];
+        var query = "UPDATE ?? SET ?? = ?, ? = ?, ? = ?, ? = ?, ?? = ?, ? = ?, ? = ?, ? = ? WHERE ?? = ?";
+        var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock, 
+            "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductId", req.body.AmazonProductId,
+            "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId];
+
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -326,17 +388,12 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             }
         });
     });
+    //#endregion Item Crud Operation
+
 
     router.post("/sensorReading", function (req, res) {
         var itemId = req.body.itemId;
-        var sensorReading = req.body.sensorReading;
-        var itemSize = 5;
-        var emptySize = 50;
-        var itemThreshold = 2;
-
-        var distance = emptySize - sensorReading;
-        var itemCount = Math.round(Number(distance/itemSize)); 
-
+        var itemCount = calculateItemQty(req.body.sensorReading);
 
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
