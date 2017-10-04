@@ -14,6 +14,6 @@ $ ionic serve
 # Project is comprised of three main parts
 1) Node server + MySQL DB on AWS Server (/SimpleLiving/Server)
 2) Ionic iOS/Android/Web client app (/SimpleLiving/App/)
-3) Ardunio Noder Server (/SimpleLiving/ArduinoSensor)
+3) Ardunio Node Server (/SimpleLiving/ArduinoSensor)
 
 
