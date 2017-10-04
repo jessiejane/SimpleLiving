@@ -335,7 +335,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         var itemThreshold = 2;
 
         var distance = emptySize - sensorReading;
-        var itemCount = distance / itemSize;
+        var itemCount = Math.round(Number(distance/itemSize)); 
+
 
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
@@ -345,7 +346,11 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         }
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
+<<<<<<< HEAD
         var params = ["Item", "SensorReading", req.body.sensorReading, "ItemId", req.body.ItemId];
+=======
+        var params = ["Item", "Quantity", itemCount, "ItemId", parseInt(itemId)];
+>>>>>>> 58339b0bb653cd8de77ccff3d4fb64818cf0e806
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -355,8 +360,6 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
                 res.json({ "Error": false, "Message": "Success", "List": rows });
             }
         });
-
-        res.json({ message: "Got a post /sensorReading request." + itemId + " " + sensorReading });
     });
 
     var deviceToken = "4abe2ec0d7faeb4521630176365544760dcd073dec8c254bff2078d1b5d91ee9";
