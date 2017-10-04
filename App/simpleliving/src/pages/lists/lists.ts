@@ -7,9 +7,11 @@ import { RestService } from '../../services/restService'
   selector: 'page-lists',
   templateUrl: 'lists.html'
 })
+
 export class ListsPage {
   icons: string[];
-  lists: Array<any>;
+  public lists: Array<any>;
+  public listitems: Array<any>
   //items: Array<{title: string, note: number, icon: string}>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public restService: RestService) {
@@ -28,9 +30,19 @@ export class ListsPage {
     // }
     this.restService.getLists().then(data => {
       this.lists = data.List;
+
+    //   for (var i=0; i<= this.lists.length; i++){
+
+    //     this.restService.getListItems(this.lists[i].ListId).then(data => {
+    //       this.listitems[i]= data.Item;
+    //   });
+    // }
     })
   }
   showItems(listid: number ) {
+    this.restService.getListItems(listid).then(data => {
+          this.listitems = data.Item;
+      });
     console.log('get items for listid: '+listid);
   }
   pushPage(){

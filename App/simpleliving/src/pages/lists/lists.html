@@ -10,6 +10,9 @@
 <ion-content>
   <ion-list>
     <button ion-item *ngFor="let list of lists" (click)="showItems(list.ListId)">
+      <div *ngIf="listitems != undefined && listitems[0].ListId == list.ListId">
+      <div ion-item *ngFor="let item of listitems" >{{item.Name}}</div>
+    </div>
      <!--  <ion-icon [name]="item.icon" item-start></ion-icon>
       {{item.title}}
       <div class="item-note" item-end>

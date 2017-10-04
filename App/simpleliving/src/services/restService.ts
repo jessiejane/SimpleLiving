@@ -45,4 +45,13 @@ export class RestService {
                 return Observable.throw(error.json());
             }).toPromise();
     }
+
+    getListItems(listid: number): Promise<any> {
+         return this.http.get(this.requestUrl+"lists/"+listid+"/items")
+         .map(response => {
+                return response.json() || { success: false, message: "No response from server" };
+            }).catch((error: Response | any) => {
+                return Observable.throw(error.json());
+            }).toPromise();
+    }
 }
