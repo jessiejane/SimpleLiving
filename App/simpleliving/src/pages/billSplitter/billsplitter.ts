@@ -13,6 +13,6 @@ import { Http, Headers } from '@angular/http';
   selector: 'page-billsplitter',
   templateUrl: 'billsplitter.html'
 })
-export class BillsplitterPage {
+export class BillSplitterPage {
 
 }
