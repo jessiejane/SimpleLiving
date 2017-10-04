@@ -73,7 +73,7 @@ function postSensor(itemId, sensorReading){
 	
 	// Configure the request
 	var options = {
-		url: 'http://localhost:3000/sensorReading',
+		url: 'http://ec2-13-59-35-127.us-east-2.compute.amazonaws.com:3000/sensorReading',
 		method: 'POST',
 		headers: headers,
 		body: jsonBody
