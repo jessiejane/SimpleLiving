@@ -346,11 +346,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         }
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
-<<<<<<< HEAD
-        var params = ["Item", "SensorReading", req.body.sensorReading, "ItemId", req.body.ItemId];
-=======
         var params = ["Item", "Quantity", itemCount, "ItemId", parseInt(itemId)];
->>>>>>> 58339b0bb653cd8de77ccff3d4fb64818cf0e806
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
