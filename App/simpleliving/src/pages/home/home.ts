@@ -41,7 +41,7 @@ presentAlert() {
     subTitle: 'You now have 0 Toilet Paper rolls left',
     buttons: [{text:'Update My List',
     handler: () => {
-      console.log("placeholder");
+      console.log("placeholder")
       // this.restService.updateSSQuantity().then(res =>{
       //   console.log(res);
       // })
