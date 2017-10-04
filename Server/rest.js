@@ -380,9 +380,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             "requests": [
                 {
                     "image": {
-                        "source": {
-                            "content": imageData
-                        }
+                        "content": imageData
                     },
                     "features": [
                         {
