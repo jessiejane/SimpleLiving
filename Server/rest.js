@@ -475,11 +475,31 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
                 var regex3 = new RegExp('\\d+\\.\\d{2}', 'i')
                 //console.log('Image Text: ' + imageTxt);
                 var r = imageTxt.match(regex)
-                var s = r[0].match(regex2)
-                var t = s[0].match(regex3)
-                console.log(t[0])
-
-                res.json({ amount: t[0] });
+                if (r[0] !== null)
+                {
+                    var s = r[0].match(regex2)
+                    if (s[0] !== null)
+                    {
+                        var t = s[0].match(regex3)
+                            if (t[0] !== null)
+                            {
+                                res.json({ amount: t[0] });
+                            }
+                            else
+                            {
+                                res.json({ amount: "-1" });
+                            }
+                    }
+                    else
+                    {
+                        res.json({ amount: "-1" });
+                    }
+                }
+                else
+                {
+                    res.json({ amount: "-1" });
+                }
+                
             } else {
                 console.log('Image recognition service failed: ' + error);
             }
