@@ -531,9 +531,9 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             }
         });
     });
-
+var deviceToken;
     router.put('/token', function (req, res) {
-        var deviceToken = req.body.token;
+        deviceToken = req.body.token;
         console.log("received device token: " + req.body.token);
        
         var query = "INSERT INTO ?? (??) VALUES (?)";
