@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let list of lists" (click)="showItems(list.ListId)">
+    <div ion-item *ngFor="let list of lists" (click)="showItems(list.ListId)">
       <div *ngIf="list.ListId != 3">
       {{list.Name}}
       <div *ngIf="listitems != undefined && listitems.length != 0 && listitems[0].ListId == list.ListId">
@@ -27,6 +27,6 @@
         <ion-badge item-end>{{item.note}}</ion-badge>
       </div> -->
       </div>
-    </button>
+    </div>
   </ion-list>
 </ion-content>
