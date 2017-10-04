@@ -1,7 +1,7 @@
 "use strict"
 
 export class ConfigService {
-    getEnvUrl():string {
+    getRestEndPointUrl():string {
         return "http://localhost:3000/api/"
     }
 }
