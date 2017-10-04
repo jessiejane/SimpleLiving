@@ -17,7 +17,7 @@
     </ion-card>
     <ion-card>
     <ion-card-content *ngIf="total">
-        Total : {{total}}
+         Total: <input type="text" [(ngModel)]="total">
         <button ion-button color="twitter" (click)="splitBill()">Split</button>
     </ion-card-content>
     </ion-card>
