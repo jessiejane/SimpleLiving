@@ -395,7 +395,16 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     router.post("/sensorReading", function (req, res) {
         var itemId = req.body.itemId;
         var itemCount = calculateItemQty(req.body.sensorReading);
-
+        var query = "SELECT * from Config";
+        var table = ["Item", "ItemId", req.params.ItemId];
+        query = mysql.format(query, table);
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "Deleted the item with id " + req.params.ItemId });
+            }
+        });
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
             push("4abe2ec0d7faeb4521630176365544760dcd073dec8c254bff2078d1b5d91ee9");
@@ -416,19 +425,28 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         });
     });
 
-    var deviceToken = "4abe2ec0d7faeb4521630176365544760dcd073dec8c254bff2078d1b5d91ee9";
-    router.post('/token', function (req, res) {
-        deviceToken = req.body.token;
+    router.put('/token', function (req, res) {
+        var deviceToken = req.body.token;
         console.log("received device token: " + req.body.token);
-        var response = "Loud and Clear";
-        res.json(response);
-        push(req.body.token);
+       
+        var query = "INSERT INTO ?? (??) VALUES (?)";
+        var params = ["Config", "DeviceToken",req.body.token];
+        
+        query = mysql.format(query, params);
+
+        connection.query(query, function (err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
+            } else {
+                res.json({ "Error": false, "Message": "Device Token " + req.body.token + " was added"});
+            }
+        });
     });
 
-    router.get('/push', function (req, res) {
-        push(deviceToken);
-        res.redirect('/index.html')
-    });
+    // router.get('/push', function (req, res) {
+    //     push(deviceToken);
+    //     res.redirect('/index.html')
+    // });
 
     router.post('/imageAmount', function (req, res) {
         var imageData = req.body.imageData;
