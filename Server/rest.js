@@ -14,7 +14,12 @@ function calculateItemQty(sensorReading){
     var itemSize = 3;
     var emptySize = 20;
     var distance = emptySize - sensorReading;
-    return Math.round(Number(distance/itemSize));     
+    var count = Number(distance/itemSize);
+    if (count < 0)
+    {
+        count = 0;    
+    }
+    return Math.round();     
 }
 
 function getTransactionGroupId(connection)
