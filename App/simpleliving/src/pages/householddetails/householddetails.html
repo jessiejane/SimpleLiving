@@ -24,6 +24,10 @@
 </ion-header>
 
 <ion-content>
+	<div style="padding-left:10px;">
+		<h3>Household Name: {{houseName}}</h3>
+		<p>Address: {{houseAddress}}</p>
+	</div>
   <div [ngSwitch]="detailSegment">
     <div *ngSwitchCase="'roommates'" >
       <ion-grid *ngFor="let item of listitems">
@@ -32,9 +36,7 @@
             <img src="{{item.ImageUrl}}">
           </ion-thumbnail>
           <h2>Name: {{item.Name}}</h2>
-          <p>Household Name: {{item.HouseName}}</p>
           <p>Venmo Id: {{item.VenmoId}}</p>
-          <p>Address: {{listitems[0].Address}}</p>
         </ion-item>
       </ion-grid>
     </div>

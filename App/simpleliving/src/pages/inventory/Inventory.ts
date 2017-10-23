@@ -48,8 +48,8 @@ export class InventoryPage {
     });  
   } 
      
-    emTapped(event, item) {     
-    // That's right, we're pushing to o urselves!
+    itemTapped(event, item) {     
+    // That's right, we're pushing to o urselves!]
       this.navCtrl.push(InventoryPage, {
       item: item   
       });

@@ -246,8 +246,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.get("/house/:HouseId/users", function (req, res) {
-        var query = "SELECT u.Name, u.DeviceId, h.Address, u.ImageUrl, u.VenmoId, h.Name as HouseName FROM ?? as u LEFT JOIN ?? as h on ?? = u.UserId  WHERE ?? = ?";
-        var params = ["User", "House", "h.HouseId",  "u.HouseId", req.params.HouseId];
+        var query = "SELECT * FROM ?? WHERE ?? = ?";
+        var params = ["User", "HouseId", req.params.HouseId];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -315,8 +315,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
 
     //#region List Crud Operation
     router.get("/lists", function (req, res) {
-        var query = "SELECT * FROM ??";
-        var params = ["List"];
+        var query = "SELECT * FROM ?? WHERE ?? != ?";
+        var params = ["List", "ListId", "3"];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -488,13 +488,13 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             req.body = req.body.item;
             
         }
-        var query = "UPDATE ?? SET ?? = ?, ? = ?, ? = ?, ? = ?, ?? = ?, ? = ?, ? = ?, ? = ? WHERE ?? = ?";
+        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
         var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock, 
             "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductUrl", req.body.AmazonProductUrl,
             "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId];
 
         query = mysql.format(query, params);
-console.log(query);
+		console.log(query);
         connection.query(query, function (err, rows) {
             if (err) {
                 res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });

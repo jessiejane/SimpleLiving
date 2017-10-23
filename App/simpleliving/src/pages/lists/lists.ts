@@ -11,45 +11,48 @@ import { RestService } from '../../services/restService'
 export class ListsPage {
   icons: string[];
   public lists: Array<any>;
-  public listitems: Array<any>
+  public listitems: Array<any>;
+  public selectedItem: any;
+  public selectedList: number;
   //items: Array<{title: string, note: number, icon: string}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public restService: RestService) {
-
-    // this.icons = ['basket', 'cash', 'cart', 'clipboard', 'hammer', 'bulb', 'beer' ];
-    // this.listNames = ['Groceries', 'Bills', 'Cleaning Supplies', 'Household Chores',
-    // 'Maintenance Requests', 'Hardware', 'Events']
-    // this.items = [];
-
-    // for (let i = 1; i < this.listNames.length; i++) {
-    //   this.items.push({
-    //     title: this.listNames[i-1],
-    //     note: i,
-    //     icon: this.icons[i-1]
-    //   });
-    // }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public restService: RestService) 
+  {
     this.restService.getLists().then(data => {
       this.lists = data.List;
-
-    //   for (var i=0; i<= this.lists.length; i++){
-
-    //     this.restService.getListItems(this.lists[i].ListId).then(data => {
-    //       this.listitems[i]= data.Item;
-    //   });
-    // }
     })
   }
+  
   showItems(listid: number ) {
     this.restService.getListItems(listid).then(data => {
-          this.listitems = data.Item;
-      });
+        this.listitems = data.Item;
+		this.selectedList = listid;
+      });	  
     console.log('get items for listid: '+listid);
   }
 
   addItem(item: any) {
-    item.Quantity +=1;
-    this.restService.updateListItemQuantity(item);
+	this.selectedItem = item;
+    this.selectedItem.Quantity +=1;
+    this.restService.updateListItemQuantity(this.selectedItem);
   }
+  
+  removeItem(item: any) {
+	this.selectedItem = item;
+	if (this.selectedItem.Quantity > 1)
+	{
+		this.selectedItem.Quantity -=1;
+		this.restService.updateListItemQuantity(this.selectedItem);
+	}
+  }
+  
+  deleteItem(item: any)
+  {
+	  this.restService.deleteListItem(item).then(data => {
+          this.showItems(item.ListId);
+      });
+  }
+  
   pushPage(){
     //this.appCtrl.getRootNav().push(InventoryPage);
     this.navCtrl.push(ListPage);
