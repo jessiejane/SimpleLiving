@@ -14,6 +14,7 @@ app.get('/pushSmart', function(req,res) {
  res.redirect('/index.html')
 });
 app.get('/push', function(req,res) {
+var deviceToken="d1be75f7142cef5e57ed94e1b76556e60e00c066843044f274cdd435f19437b0";
  sendPush(deviceToken);
  res.redirect('/index.html')
 });

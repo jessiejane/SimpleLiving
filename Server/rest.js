@@ -19,7 +19,8 @@ function calculateItemQty(sensorReading){
     {
         count = 0;    
     }
-    return Math.round();     
+	
+    return Math.round(count);     
 }
 
 function getTransactionGroupId(connection)
@@ -526,13 +527,13 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
             push("1914300c96f986585db237b24826eaa9d022b1cb4e9a2b66a109249afc2ca7e1", true);
-            push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29",true);
+            push("d1be75f7142cef5e57ed94e1b76556e60e00c066843044f274cdd435f19437b0",true);
             //push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29");
             // add notification code here
         }
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
-        var params = ["Item", "Quantity", itemCount, "ItemId", parseInt(itemId)];
+        var params = ["Item", "Quantity", parseInt(itemCount), "ItemId", parseInt(itemId)];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
