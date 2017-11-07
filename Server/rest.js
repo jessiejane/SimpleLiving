@@ -11,10 +11,15 @@ function REST_ROUTER(router, connection, md5) {
 
 
 function calculateItemQty(sensorReading){
-    var itemSize = 5;
-    var emptySize = 50;
+    var itemSize = 3;
+    var emptySize = 20;
     var distance = emptySize - sensorReading;
-    return Math.round(Number(distance/itemSize));     
+    var count = Number(distance/itemSize);
+    if (count < 0)
+    {
+        count = 0;    
+    }
+    return Math.round();     
 }
 
 function getTransactionGroupId(connection)
@@ -241,8 +246,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.get("/house/:HouseId/users", function (req, res) {
-        var query = "SELECT u.Name, u.DeviceId, h.Address, u.ImageUrl, u.VenmoId, h.Name as HouseName FROM ?? as u LEFT JOIN ?? as h on ?? = u.UserId  WHERE ?? = ?";
-        var params = ["User", "House", "h.HouseId",  "u.HouseId", req.params.HouseId];
+        var query = "SELECT * FROM ?? WHERE ?? = ?";
+        var params = ["User", "HouseId", req.params.HouseId];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -310,8 +315,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
 
     //#region List Crud Operation
     router.get("/lists", function (req, res) {
-        var query = "SELECT * FROM ??";
-        var params = ["List"];
+        var query = "SELECT * FROM ?? WHERE ?? != ?";
+        var params = ["List", "ListId", "3"];
         query = mysql.format(query, params);
 
         connection.query(query, function (err, rows) {
@@ -437,7 +442,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 	
 	router.get("/transactions/:HouseId", function (req, res) {
-        var query = "SELECT convert(A.Date, Date) as newDate, A.amount, B.name as fromName, C.name as toName, A.description " +
+        var query = "SELECT DATE_FORMAT(A.Date, '%m/%d/%y') as newDate, A.amount, B.name as fromName, C.name as toName, A.description " +
 					"FROM Transaction as A join User as B on A.recipientFromId = B.UserID join User as C on A.recipientToId = C.UserId  " +
 					"Where A.houseid = 1 order by A.transactionGroupId";
 
@@ -468,7 +473,7 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
     });
 
     router.patch("/items/:ItemId", function (req, res) {
-        console.log("posting to item")
+        console.log("posting to item: "+JSON.stringify(req.body.item))
         if (req.body.item == undefined) {
             var itemCount = calculateItemQty(req.body.SensorReading)
 
@@ -479,16 +484,17 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
             }
         }
         else {
-            req.body = item;
-            itemCount = item.Quantity;
+            itemCount = req.body.item.Quantity;
+            req.body = req.body.item;
+            
         }
-        var query = "UPDATE ?? SET ?? = ?, ? = ?, ? = ?, ? = ?, ?? = ?, ? = ?, ? = ?, ? = ? WHERE ?? = ?";
+        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
         var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock, 
             "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductUrl", req.body.AmazonProductUrl,
             "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId];
 
         query = mysql.format(query, params);
-
+		console.log(query);
         connection.query(query, function (err, rows) {
             if (err) {
                 res.json({ "Error": true, "Message": "Error executing MySQL query: " + err });
@@ -519,7 +525,8 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
         
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
-            push(deviceToken, true);
+            push("1914300c96f986585db237b24826eaa9d022b1cb4e9a2b66a109249afc2ca7e1", true);
+            push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29",true);
             //push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29");
             // add notification code here
         }
@@ -628,31 +635,24 @@ REST_ROUTER.prototype.handleRoutes = function (router, connection, md5) {
                 var regex2 = new RegExp('(\\$)\\d+\\.\\d{2}', 'i')
                 var regex3 = new RegExp('\\d+\\.\\d{2}', 'i')
                 //console.log('Image Text: ' + imageTxt);
+                var amountVal = -1;
                 var r = imageTxt.match(regex)
-                if (r[0] !== null)
+                for (var key in r)
                 {
                     var s = r[0].match(regex2)
-                    if (s[0] !== null)
+
+                    for (var key1 in s)
                     {
                         var t = s[0].match(regex3)
-                            if (t[0] !== null)
-                            {
-                                res.json({ amount: t[0] });
-                            }
-                            else
-                            {
-                                res.json({ amount: "-1" });
-                            }
-                    }
-                    else
-                    {
-                        res.json({ amount: "-1" });
+                        for (var key2 in t)
+                        {
+                            amountVal = t[0];
+                        }                        
                     }
                 }
-                else
-                {
-                    res.json({ amount: "-1" });
-                }
+               
+                res.json({ "amount": amountVal });
+                
 
             } else {
                 console.log('Image recognition service failed: ' + error);

@@ -20,6 +20,8 @@ export class HouseholdDetailsPage {
   detailSegment: string = "roommates";
   isAndroid: boolean = false;
   listitems: Array<any>;
+  houseName: any;
+  houseAddress: any;
 
 
   constructor(platform: Platform, public restService: RestService) {
@@ -28,6 +30,10 @@ export class HouseholdDetailsPage {
     this.restService.getAllUsersByHouseId(1).then(data => {
       this.listitems = data.User;
     });  
-   
+	
+	this.restService.getHouse(1).then(data => {
+      this.houseName = data.House[0].Name;
+      this.houseAddress = data.House[0].Address;
+    });  
   }
 }
