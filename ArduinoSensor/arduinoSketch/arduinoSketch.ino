@@ -24,7 +24,7 @@ Serial.begin(9600); // Starts the serial communication
 void loop() {
 
 // SENSOR 1 
-delay(2000);
+delay(1000);
 // Clears the trigPin
 digitalWrite(trigPin, LOW);
 delayMicroseconds(2);
@@ -41,7 +41,8 @@ Serial.print("Sensor 1 Distance: ");
 Serial.println(distance);
 
 // SENSOR 2
-delay(2000);
+/*
+delay(1000);
 // Clears the trigPin
 digitalWrite(trigPin2, LOW);
 delayMicroseconds(2);
@@ -56,4 +57,5 @@ distance= (duration*0.034*0.393701)/2;
 // Prints the distance on the Serial Monitor
 Serial.print("Sensor 2 Distance: ");
 Serial.println(distance);
+*/
 }

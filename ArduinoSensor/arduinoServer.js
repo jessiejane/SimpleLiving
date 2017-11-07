@@ -42,7 +42,7 @@ port.on('open', function(){
 	  }
 	  
 	  if(productID == 2)
-	  {
+	  {/*
 		  if(s2Reading == undefined)
 		  {
 			  console.log("Sensor 1 Undefined, initializing");
@@ -58,7 +58,7 @@ port.on('open', function(){
 				s2Reading = sensorReading;
 				postSensor(productID, s2Reading);
 			  }
-		  }
+		  } */
 	  }
 
 	  
@@ -68,7 +68,7 @@ port.on('open', function(){
 });
 
 function postSensor(itemId, sensorReading){
-	console.log("Change request");
+	console.log("Change request, itemID = " + itemId + " sensorReading = " + sensorReading);
 	var headers = {
 		'Content-Type':     'application/json'
 	}
