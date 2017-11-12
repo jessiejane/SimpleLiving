@@ -17,6 +17,7 @@ export class ListsPage {
   public selectedItem: any;
   public selectedList: number;
   public count: number;
+  public updateID: number;
   //items: Array<{title: string, note: number, icon: string}>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public restService: RestService, private socket: Socket) 
@@ -27,14 +28,14 @@ export class ListsPage {
     })
 
     this.getCount().subscribe(data => {
-      this.count = data['text'];
-      console.log("UPDATE COUNT: " + this.count);
+      this.selectedItem = data;
+      console.log("UPDATE COUNT OF ITEM " + this.selectedItem.ItemId + " to "  + this.selectedItem.Quantity);
     });
   }
 
-  updateCount(count: number){
-    console.log("EMITTING CHANGE COUNT " + count);
-    this.socket.emit('change-count', count);
+  updateCount(item: any){
+    console.log("EMITTING CHANGE COUNT FOR " + item.ItemId + " TO " + item.Quantity);
+    this.socket.emit('change-count', item);
   }
 
   getCount(){
@@ -59,7 +60,7 @@ export class ListsPage {
 	this.selectedItem = item;
     this.selectedItem.Quantity +=1;
     this.restService.updateListItemQuantity(this.selectedItem);
-    this.updateCount(this.selectedItem.Quantity);
+    this.updateCount(this.selectedItem);
   }
   
   removeItem(item: any) {
