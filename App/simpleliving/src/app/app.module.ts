@@ -19,6 +19,8 @@ import { HttpModule } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
 import { RestService }  from '../services/restService';
 import { ConfigService }  from '../services/configService';
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+const config: SocketIoConfig = { url: 'http://ec2-13-59-35-127.us-east-2.compute.amazonaws.com:3001', options: {} };
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -51,6 +53,7 @@ const cloudSettings: CloudSettings = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    SocketIoModule.forRoot(config),
     CloudModule.forRoot(cloudSettings),
     HttpModule
   ],
