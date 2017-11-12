@@ -4,6 +4,36 @@ var bodyParser  = require("body-parser");
 var md5 = require('MD5');
 var rest = require("./rest.js");
 var app  = express();
+var app1 = express();
+
+//START JHG
+var http = require('http').Server(app1);
+var io = require('socket.io')(http);
+
+app1.get('/', function(req, res){
+res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket){
+
+  console.log('a user connected');
+  //emit 'change-count' whenever changing value of count
+  socket.on('change-count', (item) => {
+    //emit updated value to all subscribers
+    console.log('*************** RECD ITEM ID ' + item.ItemId + ' EMITTING UPDATE *************' )
+    io.emit('update-count', item);
+  });
+
+});
+
+http.listen(3001, function(){
+   console.log('listening in http://localhost:' + 3001);
+});
+
+
+
+//END JHG
+
 app.use(express.static(__dirname + '/static'));
 app.get('/push', function(req,res) {
  sendPush(deviceToken);
@@ -14,7 +44,7 @@ app.get('/pushSmart', function(req,res) {
  res.redirect('/index.html')
 });
 app.get('/push', function(req,res) {
-var deviceToken="d1be75f7142cef5e57ed94e1b76556e60e00c066843044f274cdd435f19437b0";
+//var deviceToken="d1be75f7142cef5e57ed94e1b76556e60e00c066843044f274cdd435f19437b0";
  sendPush(deviceToken);
  res.redirect('/index.html')
 });
