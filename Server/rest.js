@@ -3,6 +3,7 @@ var mysql = require("mysql");
 var request = require('request');
 var push = require("./push.js");
 var itemThreshold = 2;
+var deviceTokens = [];
 
 function REST_ROUTER(router, connection, md5) {
     var self = this;
@@ -522,10 +523,9 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
 
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
-            push("b035559116ecdf602644e27058f35d9034bc63285b8db25ecc09f4f22d2baf20", true);
-            push("d1be75f7142cef5e57ed94e1b76556e60e00c066843044f274cdd435f19437b0", true);
-            //push("a0847f09ae68fb5b5304c82bfdfe88069e8a9b32fe5830b0e6a7182292274d29");
-            // add notification code here
+            for (var i = 0; i < deviceTokens.length; i++) {
+                push(deviceTokens[i],true);
+            }
         }
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
@@ -541,11 +541,9 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
         });
     });
 
-    var deviceTokens = [];
-
     router.get('/push', function(req, res) {
         for (var i = 0; i < deviceTokens.length; i++) {
-            push(deviceTokens[i]);
+            push(deviceTokens[i],true);
         }
         res.redirect('/index.html')
     });
