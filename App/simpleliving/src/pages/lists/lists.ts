@@ -15,6 +15,7 @@ export class ListsPage {
   public lists: Array<any>;
   public listitems: Array<any>;
   public selectedItem: any;
+  public updatedItem: any;
   public selectedList: number;
   public count: number;
   public updateID: number;
@@ -28,8 +29,17 @@ export class ListsPage {
     })
 
     this.getCount().subscribe(data => {
-      this.selectedItem = data;
-      console.log("UPDATE COUNT OF ITEM " + this.selectedItem.ItemId + " to "  + this.selectedItem.Quantity);
+      this.updatedItem = data;
+      for (let item of this.listitems)
+      {
+        if (this.selectedList === this.updatedItem.ListId &&
+            item != undefined &&
+            item.ItemId === this.updatedItem.ItemId)
+        {
+            item.Quantity = this.updatedItem.Quantity;
+            console.log("** UPDATE COUNT OF ITEM " + item.ItemId + " to "  + item.Quantity);
+        }
+      }
     });
   }
 
@@ -56,20 +66,21 @@ export class ListsPage {
     console.log('get items for listid: '+listid);
   }
 
-  addItem(item: any) {
-	this.selectedItem = item;
-    this.selectedItem.Quantity +=1;
+  addItem(newitem: any) {
+    this.selectedItem = newitem;
+    this.selectedItem.Quantity +=1;    
     this.restService.updateListItemQuantity(this.selectedItem);
     this.updateCount(this.selectedItem);
   }
   
   removeItem(item: any) {
 	this.selectedItem = item;
-	if (this.selectedItem.Quantity > 1)
-	{
-		this.selectedItem.Quantity -=1;
-		this.restService.updateListItemQuantity(this.selectedItem);
-	}
+    if (this.selectedItem.Quantity > 1)
+    {
+      this.selectedItem.Quantity -=1;
+      this.restService.updateListItemQuantity(this.selectedItem);      
+      this.updateCount(this.selectedItem);
+    }
   }
   
   deleteItem(item: any)
