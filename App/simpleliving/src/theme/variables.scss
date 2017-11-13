@@ -40,8 +40,11 @@ $colors: (
   light:      #f4f4f4,
   dark:       #222
 );
+html {
+	font-size:55% !important;
+}
 $toolbar-md-background:         #566987; 
-
+$toolbar-ios-background: 		#566987;
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
