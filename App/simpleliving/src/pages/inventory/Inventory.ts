@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
 import { RestService } from '../../services/restService';
 
@@ -19,15 +20,19 @@ import { Http, Headers } from '@angular/http';
 })
 export class InventoryPage {
   selectedItem: any;
+  smartStockInventory: any;
+  smartStockItemId: any;
   icons: string[];
   listNames: string[];  
   items: Array<{title: string, note: number, icon: string}>;
   listitems: Array<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public restService: RestService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public restService: RestService, private socket: Socket) 
+  {
+    this.socket.connect();
 
-  // If we navigated to this page, we will have an item available as a nav param
-  this.selectedItem = navParams.get('item');
+    // If we navigated to this page, we will have an item available as a nav param
+    this.selectedItem = navParams.get('item');
   
         this.listNames = ['Groceries', 'Bills', 'Cleaning Supplies', 'Household Chores',
       'Maintenance Requests', 'Hardware', 'Events']
@@ -44,9 +49,27 @@ export class InventoryPage {
       }
       
       this.restService.populateInventory().then(response => {
-      this.listitems = response.Item;
-    });  
+        this.listitems = response.Item;
+      });
+    
+    this.getSmartStockEvent().subscribe(data => {
+      this.smartStockInventory = data['count'];
+      this.smartStockItemId = data['id'];
+      this.restService.populateInventory().then(response => {
+        this.listitems = response.Item;
+      });
+    });
   } 
+
+  getSmartStockEvent() {
+    let observable = new Observable(observer => {
+      this.socket.on('change-smartstock-count', (data) => {
+        observer.next(data);
+      });
+      console.log('RECEIVING SMARTSTOCK UPDATE');
+    });
+    return observable;
+  }
      
     itemTapped(event, item) {     
     // That's right, we're pushing to o urselves!]

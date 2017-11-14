@@ -16,10 +16,10 @@ export class ListsPage {
   public listitems: Array<any>;
   public selectedItem: any;
   public updatedItem: any;
+  public deletedItem: any;
   public selectedList: number;
   public count: number;
   public updateID: number;
-  //items: Array<{title: string, note: number, icon: string}>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public restService: RestService, private socket: Socket) 
   {
@@ -30,16 +30,26 @@ export class ListsPage {
 
     this.getCount().subscribe(data => {
       this.updatedItem = data;
-      for (let item of this.listitems)
-      {
-        if (this.selectedList === this.updatedItem.ListId &&
-            item != undefined &&
-            item.ItemId === this.updatedItem.ItemId)
-        {
-            item.Quantity = this.updatedItem.Quantity;
-            console.log("** UPDATE COUNT OF ITEM " + item.ItemId + " to "  + item.Quantity);
-        }
+      console.log("** UPDATE COUNT OF ITEM " + this.updatedItem.ItemId + " to "  + this.updatedItem.Quantity);
+      if (this.selectedList === this.updatedItem.ListId)
+      {        
+        this.restService.getLists().then(data => {
+          this.lists = data.List;
+          this.restService.getListItems(this.selectedList).then(data => {
+            this.listitems = data.Item;
+          });
+        });
       }
+    });
+
+
+    this.getDeleteEvent().subscribe(data => {
+      this.deletedItem = data;
+        if (this.selectedList === this.deletedItem.ListId)
+        {
+          this.showItems(this.selectedList);
+          console.log("** REMOVED DELETED ITEM " + this.selectedList);
+        }
     });
   }
 
@@ -48,12 +58,26 @@ export class ListsPage {
     this.socket.emit('change-count', item);
   }
 
-  getCount(){
+  updateDeletedItem(item: any){
+    this.socket.emit('delete-item', item);
+  }
+
+  getCount() {
     let observable = new Observable(observer => {
       this.socket.on('update-count', (data) => {
         observer.next(data);
       });
       console.log('RECEIVING UPDATE COUNT');
+    });
+    return observable;
+  }
+  
+  getDeleteEvent() {
+    let observable = new Observable(observer => {
+      this.socket.on('delete-item', (data) => {
+        observer.next(data);
+      });
+      console.log('RECEIVING DELETE UPDATE');
     });
     return observable;
   }
@@ -66,27 +90,29 @@ export class ListsPage {
     console.log('get items for listid: '+listid);
   }
 
-  addItem(newitem: any) {
-    this.selectedItem = newitem;
-    this.selectedItem.Quantity +=1;    
-    this.restService.updateListItemQuantity(this.selectedItem);
-    this.updateCount(this.selectedItem);
+  addItem(item: any) {
+    this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity + 1, ListId: item.ListId};
+    this.restService.updateListItemQuantity(this.selectedItem).then(data => {        
+        this.updateCount(this.selectedItem);
+      }
+    );
   }
   
   removeItem(item: any) {
-	this.selectedItem = item;
-    if (this.selectedItem.Quantity > 1)
-    {
-      this.selectedItem.Quantity -=1;
-      this.restService.updateListItemQuantity(this.selectedItem);      
-      this.updateCount(this.selectedItem);
+    if (item.Quantity > 1)
+    {  
+      this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity - 1, ListId: item.ListId};
+      this.restService.updateListItemQuantity(this.selectedItem).then(data => {        
+          this.updateCount(this.selectedItem);
+        }
+      );
     }
   }
   
   deleteItem(item: any)
   {
 	  this.restService.deleteListItem(item).then(data => {
-          this.showItems(item.ListId);
+          this.updateDeletedItem(item);
       });
   }
   

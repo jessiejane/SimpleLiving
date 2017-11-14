@@ -20,9 +20,23 @@ io.on('connection', function(socket){
   //emit 'change-count' whenever changing value of count
   socket.on('change-count', (item) => {
     //emit updated value to all subscribers
-    console.log('*************** RECD ITEM ID ' + item.ItemId + ' EMITTING UPDATE *************' )
+    console.log('*************** ADD - RECD ITEM ID ' + item.ItemId + ' EMITTING UPDATE *************' )
     io.emit('update-count', item);
   });
+
+    //emit 'delete-item' whenever an item is removed
+    socket.on('delete-item', (item) => {
+      //emit deleted item to all subscribers
+      console.log('*************** DELETE - RECD ITEM ID ' + item.ItemId + ' EMITTING DELETE *************' )
+      io.emit('delete-item', item);
+    });
+
+      //emit 'add-item' whenever an item is added
+      socket.on('change-smartstock-count', (item) => {
+        //emit deleted item to all subscribers
+        console.log('*************** ADD - RECD ITEM ID ' + item.ItemId + ' EMITTING ADD *************' )
+        io.emit('change-smartstock-count', item);
+      });
 
 });
 
@@ -36,6 +50,11 @@ http.listen(3001, function(){
 
 app.use(express.static(__dirname + '/static'));
 
+// app.get('/push', function(req,res) {
+//   for (i=0; i<deviceTokens.length; i++)
+//       sendPush(deviceTokens[i]);
+//  res.redirect('/index.html')
+// });
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);

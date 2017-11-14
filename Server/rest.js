@@ -3,7 +3,28 @@ var mysql = require("mysql");
 var request = require('request');
 var push = require("./push.js");
 var itemThreshold = 2;
-var deviceTokens = [];
+var io = require('socket.io-client');
+
+//START JHG
+/*
+var app1 = express();
+var http = require('http').Server(app1);
+var io = require('socket.io')(http);
+
+app1.get('/', function(req, res){
+res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket){
+
+  console.log('a user connected');
+  //emit 'change-count' whenever changing value of count
+});
+
+http.listen(3002, function(){
+   console.log('listening in http://localhost:' + 3002);
+});
+*/
 
 function REST_ROUTER(router, connection, md5) {
     var self = this;
@@ -485,11 +506,8 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
             req.body = req.body.item;
 
         }
-        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
-        var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock,
-            "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductUrl", req.body.AmazonProductUrl,
-            "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId
-        ];
+        var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
+        var params = ["Item", "Quantity", itemCount, "ItemId", req.params.ItemId];
 
         query = mysql.format(query, params);
         console.log(query);
@@ -524,9 +542,13 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
             for (var i = 0; i < deviceTokens.length; i++) {
-                push(deviceTokens[i],true);
+                push(deviceTokens[i], true);
             }
+            // add notification code here
         }
+        
+        var socket = io.connect("http://localhost:3001/");
+        socket.emit('change-smartstock-count', {count: itemCount, id: itemId});
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
         var params = ["Item", "Quantity", parseInt(itemCount), "ItemId", parseInt(itemId)];
@@ -541,9 +563,11 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
         });
     });
 
+    var deviceTokens = [];
+
     router.get('/push', function(req, res) {
         for (var i = 0; i < deviceTokens.length; i++) {
-            push(deviceTokens[i],true);
+            push(deviceTokens[i], true);
         }
         res.redirect('/index.html')
     });
