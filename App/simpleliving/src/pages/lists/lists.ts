@@ -95,7 +95,7 @@ export class ListsPage {
     this.selectedItem = newitem;
     this.selectedItem.Quantity +=1;    
     this.restService.updateListItemQuantity(this.selectedItem);
-    this.updateDeletedItem(this.selectedItem);
+    this.updateCount(this.selectedItem);
   }
   
   removeItem(item: any) {
@@ -104,7 +104,7 @@ export class ListsPage {
     {
       this.selectedItem.Quantity -=1;
       this.restService.updateListItemQuantity(this.selectedItem);      
-      this.updateDeletedItem(this.selectedItem);
+      this.updateCount(this.selectedItem);
     }
   }
   
