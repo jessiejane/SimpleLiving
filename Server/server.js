@@ -20,16 +20,23 @@ io.on('connection', function(socket){
   //emit 'change-count' whenever changing value of count
   socket.on('change-count', (item) => {
     //emit updated value to all subscribers
-    console.log('*************** RECD ITEM ID ' + item.ItemId + ' EMITTING UPDATE *************' )
+    console.log('*************** ADD - RECD ITEM ID ' + item.ItemId + ' EMITTING UPDATE *************' )
     io.emit('update-count', item);
   });
 
     //emit 'delete-item' whenever an item is removed
     socket.on('delete-item', (item) => {
       //emit deleted item to all subscribers
-      console.log('*************** RECD ITEM ID ' + item.ItemId + ' EMITTING DELETE *************' )
+      console.log('*************** DELETE - RECD ITEM ID ' + item.ItemId + ' EMITTING DELETE *************' )
       io.emit('delete-item', item);
     });
+
+      //emit 'add-item' whenever an item is added
+      socket.on('add-item', (item) => {
+        //emit deleted item to all subscribers
+        console.log('*************** ADD - RECD ITEM ID ' + item.ItemId + ' EMITTING ADD *************' )
+        io.emit('add-item', item);
+      });
 
 });
 

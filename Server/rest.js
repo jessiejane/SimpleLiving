@@ -3,6 +3,28 @@ var mysql = require("mysql");
 var request = require('request');
 var push = require("./push.js");
 var itemThreshold = 2;
+var io = require('socket.io');
+
+//START JHG
+/*
+var app1 = express();
+var http = require('http').Server(app1);
+var io = require('socket.io')(http);
+
+app1.get('/', function(req, res){
+res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket){
+
+  console.log('a user connected');
+  //emit 'change-count' whenever changing value of count
+});
+
+http.listen(3002, function(){
+   console.log('listening in http://localhost:' + 3002);
+});
+*/
 
 function REST_ROUTER(router, connection, md5) {
     var self = this;
@@ -523,14 +545,13 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
         if (itemCount <= itemThreshold) {
             console.log("Item too low");
             for (var i = 0; i < deviceTokens.length; i++) {
-            push(deviceTokens[i], true);
-        }
-for (var i = 0; i < deviceTokens.length; i++) {
-            push(deviceTokens[i], true);
-        }
-
+                push(deviceTokens[i], true);
+            }
             // add notification code here
         }
+        
+        io.emit('change-smartstock-count', {count: itemCount, id: itemID});
+
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
         var params = ["Item", "Quantity", parseInt(itemCount), "ItemId", parseInt(itemId)];
