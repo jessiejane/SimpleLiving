@@ -35,19 +35,13 @@ http.listen(3001, function(){
 //END JHG
 
 app.use(express.static(__dirname + '/static'));
-app.get('/push', function(req,res) {
- sendPush(deviceToken);
- res.redirect('/index.html')
-});
-app.get('/pushSmart', function(req,res) {
- sendPush(deviceToken, true);
- res.redirect('/index.html')
-});
-app.get('/push', function(req,res) {
-//var deviceToken="d1be75f7142cef5e57ed94e1b76556e60e00c066843044f274cdd435f19437b0";
- sendPush(deviceToken);
- res.redirect('/index.html')
-});
+
+// app.get('/push', function(req,res) {
+//   for (i=0; i<deviceTokens.length; i++)
+//       sendPush(deviceTokens[i]);
+//  res.redirect('/index.html')
+// });
+
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Origin', req.headers.origin);
