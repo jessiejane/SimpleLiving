@@ -3,7 +3,7 @@ var mysql = require("mysql");
 var request = require('request');
 var push = require("./push.js");
 var itemThreshold = 2;
-var io = require('socket.io')(3002);
+var io = require('socket.io-client');
 
 //START JHG
 /*
@@ -550,11 +550,8 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
             // add notification code here
         }
         
-        io.on('connection', function (socket)
-        {
-            io.emit('change-smartstock-count', {count: itemCount, id: itemId});
-        });
-
+        var socket = io.connect("http://localhost:3001/");
+        socket.emit('change-smartstock-count', {count: itemCount, id: itemId});
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
         var params = ["Item", "Quantity", parseInt(itemCount), "ItemId", parseInt(itemId)];

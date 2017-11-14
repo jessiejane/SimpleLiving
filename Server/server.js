@@ -32,10 +32,10 @@ io.on('connection', function(socket){
     });
 
       //emit 'add-item' whenever an item is added
-      socket.on('add-item', (item) => {
+      socket.on('change-smartstock-count', (item) => {
         //emit deleted item to all subscribers
         console.log('*************** ADD - RECD ITEM ID ' + item.ItemId + ' EMITTING ADD *************' )
-        io.emit('add-item', item);
+        io.emit('change-smartstock-count', item);
       });
 
 });
