@@ -24,6 +24,13 @@ io.on('connection', function(socket){
     io.emit('update-count', item);
   });
 
+    //emit 'delete-item' whenever an item is removed
+    socket.on('delete-item', (item) => {
+      //emit deleted item to all subscribers
+      console.log('*************** RECD ITEM ID ' + item.ItemId + ' EMITTING DELETE *************' )
+      io.emit('delete-item', item);
+    });
+
 });
 
 http.listen(3001, function(){
