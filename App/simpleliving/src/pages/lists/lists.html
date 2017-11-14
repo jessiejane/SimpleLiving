@@ -18,17 +18,6 @@
                 <ion-icon tappable (click)="removeItem(item)" name="remove" *ngIf="list.ListId === 1" item-end></ion-icon>
                 <ion-icon tappable (click)="deleteItem(item)" name="trash"item-end></ion-icon>
                 <ion-badge *ngIf="list.ListId === 1" item-end>{{item.Quantity}}</ion-badge>
-              <!--             
-              <ion-icon tappable (click)="addItem(item)" name="add" *ngIf="list.ListId === 1 && (selectedItem == undefined || item.ItemId !== selectedItem.ItemId)" item-end></ion-icon>
-              <ion-icon tappable (click)="removeItem(item)" name="remove" *ngIf="list.ListId === 1 && (selectedItem == undefined || item.ItemId !== selectedItem.ItemId)" item-end></ion-icon>
-              <ion-icon tappable (click)="deleteItem(item)" name="trash" *ngIf="selectedItem == undefined || item.ItemId !== selectedItem.ItemId" item-end></ion-icon>
-              <ion-badge *ngIf="list.ListId === 1 && (selectedItem == undefined || item.ItemId !== selectedItem.ItemId)" item-end>{{item.Quantity}}</ion-badge>
-              
-              <ion-icon tappable (click)="addItem(selectedItem)" name="add" *ngIf="list.ListId === 1 && (selectedItem != undefined && item.ItemId === selectedItem.ItemId)" item-end></ion-icon>
-              <ion-icon tappable (click)="removeItem(selectedItem)" name="remove" *ngIf="list.ListId === 1 && (selectedItem != undefined && item.ItemId === selectedItem.ItemId)" item-end></ion-icon>
-              <ion-icon tappable (click)="deleteItem(selectedItem)" name="trash" *ngIf="selectedItem != undefined && item.ItemId === selectedItem.ItemId" item-end></ion-icon>
-              <ion-badge *ngIf="list.ListId === 1 && (selectedItem != undefined && item.ItemId === selectedItem.ItemId)"  item-end>{{selectedItem.Quantity}}</ion-badge>
-              -->
             </div>		
         </div>
       </div>

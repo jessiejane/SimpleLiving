@@ -20,7 +20,6 @@ export class ListsPage {
   public selectedList: number;
   public count: number;
   public updateID: number;
-  //items: Array<{title: string, note: number, icon: string}>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public restService: RestService, private socket: Socket) 
   {
@@ -31,18 +30,7 @@ export class ListsPage {
 
     this.getCount().subscribe(data => {
       this.updatedItem = data;
-      /** 
-      for (let item of this.listitems)
-      {
-        if (this.selectedList === this.updatedItem.ListId &&
-            item != undefined &&
-            item.ItemId === this.updatedItem.ItemId)
-        {
-            item.Quantity = this.updatedItem.Quantity;
-            console.log("** UPDATE COUNT OF ITEM " + item.ItemId + " to "  + item.Quantity);
-        }
-      }*/
-
+      console.log("** UPDATE COUNT OF ITEM " + this.updatedItem.ItemId + " to "  + this.updatedItem.Quantity);
       if (this.selectedList === this.updatedItem.ListId)
       {        
         this.restService.getLists().then(data => {
@@ -103,10 +91,7 @@ export class ListsPage {
   }
 
   addItem(item: any) {
-    //this.selectedItem.ItemId = item.ItemId;
-    //this.selectedItem.Quantity = item.Quantity + 1;   
-    this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity + 1};
-    console.log("here id = " + this.selectedItem.ItemId + " realiid = " + item.ItemId + " num = " +  this.selectedItem.Quantity);
+    this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity + 1, ListId: item.ListId};
     this.restService.updateListItemQuantity(this.selectedItem).then(data => {        
         this.updateCount(this.selectedItem);
       }
@@ -115,12 +100,12 @@ export class ListsPage {
   
   removeItem(item: any) {
     if (item.Quantity > 1)
-    {
-      //this.selectedItem.ItemId = item.ItemId;
-      //this.selectedItem.Quantity = item.Quantity - 1;   
-      this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity - 1};
-      this.restService.updateListItemQuantity(this.selectedItem);      
-      this.updateCount(this.selectedItem);
+    {  
+      this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity - 1, ListId: item.ListId};
+      this.restService.updateListItemQuantity(this.selectedItem).then(data => {        
+          this.updateCount(this.selectedItem);
+        }
+      );
     }
   }
   
