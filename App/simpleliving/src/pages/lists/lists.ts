@@ -16,6 +16,7 @@ export class ListsPage {
   public listitems: Array<any>;
   public selectedItem: any;
   public updatedItem: any;
+  public deletedItem: any;
   public selectedList: number;
   public count: number;
   public updateID: number;
@@ -41,6 +42,16 @@ export class ListsPage {
         }
       }
     });
+
+
+    this.getDeleteEvent().subscribe(data => {
+      this.deletedItem = data;
+        if (this.selectedList === this.deletedItem.ListId)
+        {
+          this.showItems(this.selectedList);
+          console.log("** REMOVED DELETED ITEM " + this.selectedList);
+        }
+    });
   }
 
   updateCount(item: any){
@@ -48,12 +59,26 @@ export class ListsPage {
     this.socket.emit('change-count', item);
   }
 
-  getCount(){
+  updateDeletedItem(item: any){
+    this.socket.emit('delete-item', item);
+  }
+
+  getCount() {
     let observable = new Observable(observer => {
       this.socket.on('update-count', (data) => {
         observer.next(data);
       });
       console.log('RECEIVING UPDATE COUNT');
+    });
+    return observable;
+  }
+  
+  getDeleteEvent() {
+    let observable = new Observable(observer => {
+      this.socket.on('delete-item', (data) => {
+        observer.next(data);
+      });
+      console.log('RECEIVING DELETE UPDATE');
     });
     return observable;
   }
@@ -86,7 +111,7 @@ export class ListsPage {
   deleteItem(item: any)
   {
 	  this.restService.deleteListItem(item).then(data => {
-          this.showItems(item.ListId);
+          this.updateDeletedItem(item);
       });
   }
   
