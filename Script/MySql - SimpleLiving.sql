@@ -41,7 +41,12 @@ create table Config(
 );
 
 use SimpleLiving;
-insert into Config (DeviceToken) values ('ba4ac0018e35d89f2547ac73048c98b5aa5e98e156ca13173241d52fcd4b3c67');
+insert into Config (DeviceToken) values 
+('ba4ac0018e35d89f2547ac73048c98b5aa5e98e156ca13173241d52fcd4b3c67'),
+('d1be75f7142cef5e57ed94e1b76556e60e00c066843044f274cdd435f19437b0'),
+('f82141ab76c2777e73fd89364f896f31b3c4c49473e191ea9eeb1c18d53f7624'),
+('b035559116ecdf602644e27058f35d9034bc63285b8db25ecc09f4f22d2baf20'),
+('6092b35428f94f645955d9aa1f8af56755786b6880837f9a9b977b1dc75ac7a9');
 
 use SimpleLiving;
 insert into User (UserId, HouseId, Name, VenmoId, DeviceId, MasterVenmoToken, ImageUrl) values (1, 1, 'Jessie Dahlquist', 'Jessie-Dahlquist' , uuid(), 'e5a0c532f1e23bfb4fa5850a36919440a3188745738d05410f0b4f7043effc93', "https://github.com/jessiejane/SimpleLiving/blob/master/App/simpleliving/src/assets/img/joeyIcon1.jpg?raw=true"); 
@@ -146,4 +151,4 @@ create table Transaction(
 
 use SimpleLiving;
 insert into Transaction(HouseId, Date, Amount, RecipientToId, RecipientFromId, TransactionGroupId, ImageUrl, Description, Type) 
-values (1, '2017-10-04', 21, 1, 2, 2, 'www.google.com', 'description', 'type');
+values (1, '2017-10-04', 21, 1, 2, 2, 'www.google.com', 'Milk shot', 'type');
