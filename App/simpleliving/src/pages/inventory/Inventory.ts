@@ -49,21 +49,15 @@ export class InventoryPage {
       }
       
       this.restService.populateInventory().then(response => {
-      this.listitems = response.Item;
-    });
+        this.listitems = response.Item;
+      });
     
     this.getSmartStockEvent().subscribe(data => {
-      console.log('GETTING SMARTSTOCK EVENT');
       this.smartStockInventory = data['count'];
       this.smartStockItemId = data['id'];
-      for (let item of this.listitems)
-      {
-        if (item != undefined && item.ItemId === this.smartStockItemId)
-        {
-            item.Quantity = this.smartStockInventory;
-            console.log("** UPDATE COUNT OF ITEM " + item.ItemId + " to "  + item.Quantity);
-        }
-      }
+      this.restService.populateInventory().then(response => {
+        this.listitems = response.Item;
+      });
     });
   } 
 
