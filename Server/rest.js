@@ -3,7 +3,7 @@ var mysql = require("mysql");
 var request = require('request');
 var push = require("./push.js");
 var itemThreshold = 2;
-var io = require('socket.io');
+var io = require('socket.io')(3002);
 
 //START JHG
 /*
