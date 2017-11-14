@@ -550,7 +550,10 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
             // add notification code here
         }
         
-        io.emit('change-smartstock-count', {count: itemCount, id: itemId});
+        io.on('connection', function (socket)
+        {
+            io.emit('change-smartstock-count', {count: itemCount, id: itemId});
+        });
 
 
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
