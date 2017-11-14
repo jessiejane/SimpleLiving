@@ -506,11 +506,8 @@ REST_ROUTER.prototype.handleRoutes = function(router, connection, md5) {
             req.body = req.body.item;
 
         }
-        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
-        var params = ["Item", "HouseId", req.body.HouseId, "Name", req.body.Name, "IsSmartStock", req.body.IsSmartStock,
-            "ListId", req.body.ListId, "Description", req.body.Description, "AmazonProductUrl", req.body.AmazonProductUrl,
-            "SensorReading", req.body.SensorReading, "Quantity", itemCount, "ItemId", req.params.ItemId
-        ];
+        var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
+        var params = ["Item", "Quantity", itemCount, "ItemId", req.params.ItemId];
 
         query = mysql.format(query, params);
         console.log(query);

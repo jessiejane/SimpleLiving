@@ -31,6 +31,7 @@ export class ListsPage {
 
     this.getCount().subscribe(data => {
       this.updatedItem = data;
+      /** 
       for (let item of this.listitems)
       {
         if (this.selectedList === this.updatedItem.ListId &&
@@ -40,6 +41,16 @@ export class ListsPage {
             item.Quantity = this.updatedItem.Quantity;
             console.log("** UPDATE COUNT OF ITEM " + item.ItemId + " to "  + item.Quantity);
         }
+      }*/
+
+      if (this.selectedList === this.updatedItem.ListId)
+      {        
+        this.restService.getLists().then(data => {
+          this.lists = data.List;
+          this.restService.getListItems(this.selectedList).then(data => {
+            this.listitems = data.Item;
+          });
+        });
       }
     });
 
@@ -91,18 +102,23 @@ export class ListsPage {
     console.log('get items for listid: '+listid);
   }
 
-  addItem(newitem: any) {
-    this.selectedItem = newitem;
-    this.selectedItem.Quantity +=1;    
-    this.restService.updateListItemQuantity(this.selectedItem);
-    this.updateCount(this.selectedItem);
+  addItem(item: any) {
+    //this.selectedItem.ItemId = item.ItemId;
+    //this.selectedItem.Quantity = item.Quantity + 1;   
+    this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity + 1};
+    console.log("here id = " + this.selectedItem.ItemId + " realiid = " + item.ItemId + " num = " +  this.selectedItem.Quantity);
+    this.restService.updateListItemQuantity(this.selectedItem).then(data => {        
+        this.updateCount(this.selectedItem);
+      }
+    );
   }
   
   removeItem(item: any) {
-	this.selectedItem = item;
-    if (this.selectedItem.Quantity > 1)
+    if (item.Quantity > 1)
     {
-      this.selectedItem.Quantity -=1;
+      //this.selectedItem.ItemId = item.ItemId;
+      //this.selectedItem.Quantity = item.Quantity - 1;   
+      this.selectedItem = {ItemId: item.ItemId, Quantity: item.Quantity - 1};
       this.restService.updateListItemQuantity(this.selectedItem);      
       this.updateCount(this.selectedItem);
     }
